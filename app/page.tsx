@@ -56,7 +56,7 @@ function FlipNavLink({ label, href }: { label: string; href: string }) {
   return (
     <a
       href={href}
-      className="group relative block h-[20px] overflow-hidden"
+      className="group relative block h-[20px] overflow-hidden no-underline"
       style={{ perspective: "600px" }}
     >
       <span
@@ -263,11 +263,20 @@ export default function HeroPage() {
           variants={fadeSlideUp}
           initial="hidden"
           animate="visible"
-          className="inline-flex items-center gap-3 rounded-[40px] px-8 py-4 text-[15px] font-semibold text-white bg-gradient-to-b from-[#2c2c2c] to-[#1a1a1a] shadow-[inset_-4px_-6px_25px_0px_rgba(201,201,201,0.08),inset_4px_4px_10px_0px_rgba(29,29,29,0.24)] hover:from-[#333] hover:to-[#222] transition-all"
+          whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(234,176,255,0.4), inset -4px -6px 25px 0px rgba(201,201,201,0.08), inset 4px 4px 10px 0px rgba(29,29,29,0.24)" }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          className="group/btn inline-flex items-center gap-3 rounded-[40px] px-8 py-4 text-[15px] font-semibold text-white bg-gradient-to-b from-[#2c2c2c] to-[#1a1a1a] shadow-[inset_-4px_-6px_25px_0px_rgba(201,201,201,0.08),inset_4px_4px_10px_0px_rgba(29,29,29,0.24)] cursor-pointer"
           style={{ fontFamily: "'Geist', sans-serif" }}
         >
           Watch now
-          <svg width="14" height="16" viewBox="0 0 14 16" fill="none">
+          <svg
+            width="14"
+            height="16"
+            viewBox="0 0 14 16"
+            fill="none"
+            className="transition-transform duration-300 group-hover/btn:translate-x-1"
+          >
             <path d="M0 0L14 8L0 16V0Z" fill="#fff" />
           </svg>
         </motion.button>

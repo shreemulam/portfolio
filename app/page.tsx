@@ -1131,8 +1131,8 @@ function PlaygroundSection() {
         onMouseLeave={() => (isPaused.current = false)}
         onTouchStart={() => (isPaused.current = true)}
         onTouchEnd={() => (isPaused.current = false)}
-        className="flex gap-6 pl-10 pr-10 py-10 overflow-x-hidden overflow-y-visible"
-        style={{ scrollbarWidth: "none" }}
+        className="flex gap-6 pl-10 pr-10 py-10 overflow-x-auto lg:overflow-x-hidden overflow-y-visible"
+        style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
       >
         {[...PLAYGROUND_PROJECTS, ...PLAYGROUND_PROJECTS].map((project, i) => (
           <PlaygroundCard key={i} project={project} index={i} />
@@ -1667,7 +1667,7 @@ export default function HeroPage() {
           style={{ fontFamily: "'Geist', sans-serif" }}
         >
           <a href="/" className="flex items-center gap-2 text-[13px] text-[#373a46]/60 tracking-wide no-underline">
-            <span className="font-medium text-black">Rashi</span>
+            <span className="font-medium text-black" style={{ fontFamily: "'Instrument Serif', serif" }}>Rashi</span>
             <span className="text-black/20">&middot;</span>
             <span>{estTime || "\u2014"}</span>
             <span className="text-black/20">&middot;</span>

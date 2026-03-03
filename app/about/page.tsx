@@ -134,21 +134,6 @@ const HOW_I_WORK = [
   },
 ];
 
-const FUN_FACTS = [
-  { emoji: "\u2615", fact: "Runs on oatmilk iced mochas" },
-  { emoji: "\uD83C\uDFA7", fact: "Dance Techno while designing" },
-  {
-    emoji: "\uD83C\uDF19",
-    fact: "Night owl, trying to live in an early bird world",
-  },
-  { emoji: "\uD83D\uDCDA", fact: "Fantasy fiction nerd" },
-  { emoji: "\uD83C\uDFA4", fact: "Bedroom singer & songwriter" },
-  {
-    emoji: "\u2708\uFE0F",
-    fact: "Travelled to 10 new US states in 2025",
-  },
-];
-
 const EXPERIENCE = [
   {
     company: "Accrue",
@@ -541,7 +526,7 @@ function PhotoGallery() {
         onMouseLeave={() => (isPaused.current = false)}
         onTouchStart={() => (isPaused.current = true)}
         onTouchEnd={() => (isPaused.current = false)}
-        className="flex gap-4 px-6 overflow-x-hidden"
+        className="flex gap-4 px-6 py-2 overflow-x-hidden"
         style={{ scrollbarWidth: "none" }}
       >
         {[...GALLERY_PHOTOS, ...GALLERY_PHOTOS].map((photo, i) => (
@@ -787,33 +772,6 @@ export default function AboutPage() {
                 </motion.div>
               </motion.div>
 
-              {/* Fun Facts Grid */}
-              <div className="grid grid-cols-3 gap-3 mt-10">
-                {FUN_FACTS.map((item, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.25,
-                      delay: 0.15 + i * 0.04,
-                      ease: [0.25, 0.4, 0.25, 1],
-                    }}
-                    whileHover={{
-                      scale: 1.05,
-                      y: -5,
-                      borderColor: "rgba(234,176,255,0.6)",
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    className="group/fact flex flex-col items-center text-center p-4 rounded-xl border border-[#EAB0FF]/15 bg-white/80 backdrop-blur-sm cursor-default transition-all duration-200 hover:shadow-[0_8px_24px_rgba(234,176,255,0.15)]"
-                  >
-                    <span className="text-2xl mb-2">{item.emoji}</span>
-                    <span className="text-[11px] text-black/40 transition-opacity duration-200 group-hover/fact:text-black/60">
-                      {item.fact}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
             </div>
 
             {/* ── RIGHT COLUMN (scrollable) ── */}
@@ -880,7 +838,7 @@ export default function AboutPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
-                  className="text-[17px] leading-[1.7] text-black/50"
+                  className="text-[17px] leading-[1.7] text-black"
                   style={{ fontFamily: FONT }}
                 >
                   I&apos;m a product designer in NYC designing financial systems
@@ -901,7 +859,7 @@ export default function AboutPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.55 }}
-                  className="text-[17px] leading-[1.7] text-black/50"
+                  className="text-[17px] leading-[1.7] text-black"
                   style={{ fontFamily: FONT }}
                 >
                   I turn messy constraints and complex logic into interfaces
@@ -912,7 +870,7 @@ export default function AboutPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.6 }}
-                  className="text-[17px] leading-[1.7] font-medium text-black"
+                  className="text-[17px] leading-[1.7] font-bold text-black"
                   style={{ fontFamily: FONT }}
                 >
                   I design for real users, not ideal ones.

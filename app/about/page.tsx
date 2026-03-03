@@ -365,37 +365,25 @@ function HowIThinkSection() {
 
       {/* Desktop Stepper */}
       <div className="hidden md:block">
-        <div className="flex items-center mb-6">
-          {HOW_I_WORK.map((step, i) => (
+        {/* Row 1: circles + lines */}
+        <div className="flex items-center mb-3">
+          {HOW_I_WORK.map((_, i) => (
             <div key={i} className="flex items-center flex-1 last:flex-none">
               <button
                 onClick={() => setActiveStep(i)}
-                className="flex flex-col items-start gap-2 cursor-pointer bg-transparent border-none p-0"
-                style={{ fontFamily: FONT }}
+                className="w-7 h-7 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-200 cursor-pointer border-none p-0"
+                style={{
+                  backgroundColor:
+                    activeStep === i ? ACCENT : "rgba(0,0,0,0.05)",
+                  color: activeStep === i ? "#000" : "rgba(0,0,0,0.3)",
+                  fontFamily: FONT,
+                }}
               >
-                <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-200"
-                  style={{
-                    backgroundColor:
-                      activeStep === i ? ACCENT : "rgba(0,0,0,0.05)",
-                    color: activeStep === i ? "#000" : "rgba(0,0,0,0.3)",
-                  }}
-                >
-                  {i + 1}
-                </div>
-                <span
-                  className="text-sm font-medium transition-opacity duration-200"
-                  style={{
-                    color: activeStep === i ? ACCENT_TEXT : "rgba(0,0,0,0.7)",
-                    opacity: activeStep === i ? 1 : 0.6,
-                  }}
-                >
-                  {step.title}
-                </span>
+                {i + 1}
               </button>
               {i < HOW_I_WORK.length - 1 && (
                 <div
-                  className="flex-1 h-[2px] mx-3 mt-[-24px] transition-colors duration-300"
+                  className="flex-1 h-[2px] mx-3 transition-colors duration-300"
                   style={{
                     backgroundColor:
                       i < activeStep ? ACCENT : "rgba(0,0,0,0.08)",
@@ -403,6 +391,24 @@ function HowIThinkSection() {
                 />
               )}
             </div>
+          ))}
+        </div>
+
+        {/* Row 2: labels */}
+        <div className="flex mb-6">
+          {HOW_I_WORK.map((step, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveStep(i)}
+              className="flex-1 last:flex-none text-left text-sm font-medium cursor-pointer bg-transparent border-none p-0 pr-6 transition-opacity duration-200"
+              style={{
+                color: activeStep === i ? ACCENT_TEXT : "rgba(0,0,0,0.7)",
+                opacity: activeStep === i ? 1 : 0.6,
+                fontFamily: FONT,
+              }}
+            >
+              {step.title}
+            </button>
           ))}
         </div>
 

@@ -497,7 +497,7 @@ export default function AboutPage() {
         variants={fadeSlideUp}
         initial="hidden"
         animate="visible"
-        className="sticky top-0 z-50 w-full backdrop-blur-xl bg-white/80"
+        className="relative z-10 w-full"
         style={{ fontFamily: FONT }}
       >
         <div className="flex items-center justify-between px-6 lg:px-10 py-6 max-w-[1200px] mx-auto">

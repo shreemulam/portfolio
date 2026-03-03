@@ -13,6 +13,12 @@ interface Message {
 const GREETING =
   "Hey! I'm Rashi's AI assistant. Ask me anything about her work, experience, skills, or projects.";
 
+const PROMPTS = [
+  "How I redesign high-friction funnels",
+  "How I design within real constraints",
+  "How I make multi-brand UX consistent",
+];
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -39,8 +45,9 @@ export default function ChatWidget() {
     }
   }, [open]);
 
-  async function send() {
-    const text = input.trim();
+  const showPrompts = messages.length === 1 && !loading;
+
+  async function sendText(text: string) {
     if (!text || loading) return;
 
     const userMsg: Message = { role: "user", content: text };
@@ -205,6 +212,32 @@ export default function ChatWidget() {
                   {msg.content}
                 </div>
               ))}
+              {showPrompts && (
+                <div className="flex flex-col gap-2 mt-1">
+                  {PROMPTS.map((prompt) => (
+                    <button
+                      key={prompt}
+                      onClick={() => sendText(prompt)}
+                      className="self-start text-[12px] leading-[1.4] px-3 py-1.5 rounded-full border cursor-pointer transition-colors text-left"
+                      style={{
+                        borderColor: "#e8e8e8",
+                        backgroundColor: "#fff",
+                        color: "#000",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = "#f5f5f5";
+                        e.currentTarget.style.borderColor = "#000";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "#fff";
+                        e.currentTarget.style.borderColor = "#e8e8e8";
+                      }}
+                    >
+                      {prompt}
+                    </button>
+                  ))}
+                </div>
+              )}
               {loading && (
                 <div
                   className="self-start px-3.5 py-2.5 rounded-2xl text-[13px] text-black/40"
@@ -231,13 +264,13 @@ export default function ChatWidget() {
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && send()}
+                onKeyDown={(e) => e.key === "Enter" && sendText(input.trim())}
                 placeholder="Ask about Rashi..."
                 className="flex-1 text-[13px] bg-transparent outline-none text-black placeholder:text-black/30"
                 disabled={loading}
               />
               <button
-                onClick={send}
+                onClick={() => sendText(input.trim())}
                 disabled={loading || !input.trim()}
                 className="w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer transition-colors"
                 style={{

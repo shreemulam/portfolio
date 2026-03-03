@@ -813,10 +813,13 @@ export default function PlaygroundPage() {
               style={{ fontFamily: "'Geist Mono', monospace" }}
             >
               <span className="text-[13px] text-black/25">
-                &copy; 2026 &bull; Made with caffeine & existential dread
+                &copy; 2026 &bull; Made with caffeine & existential dread ☕️
               </span>
               <span className="text-[13px] text-black/25">
-                and yes, I aligned all the pixels
+                Completely vibe coded. 💻
+              </span>
+              <span className="text-[13px] text-black/25">
+                And yes, I aligned all the pixels.
               </span>
             </div>
           </div>

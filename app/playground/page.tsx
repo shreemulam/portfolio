@@ -536,7 +536,71 @@ function BentoCard({
 
 /* ─── Page ─── */
 
+
+/* ─── Mobile Menu ─── */
+
+function MobileMenu({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  const menuLinks = [
+    { label: "Case Studies", href: "/#case-studies" },
+    { label: "Playground", href: "/playground" },
+    { label: "About", href: "/about" },
+    { label: "Resume", href: "#" },
+    { label: "LinkedIn", href: "#" },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[9999] bg-white flex flex-col"
+      style={{ fontFamily: "'Geist', sans-serif" }}
+    >
+      <div className="flex justify-end px-6 py-6">
+        <button
+          onClick={onClose}
+          className="w-10 h-10 flex items-center justify-center"
+          aria-label="Close menu"
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M1 1L17 17M17 1L1 17" stroke="black" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
+      <div className="flex-1 flex flex-col items-center justify-center gap-8">
+        {menuLinks.map((link, i) => (
+          <motion.a
+            key={link.label}
+            href={link.href}
+            onClick={onClose}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 + i * 0.05, duration: 0.3 }}
+            className="text-[28px] font-medium text-black tracking-[-0.01em] hover:text-[#9b59b6] transition-colors"
+          >
+            {link.label}
+          </motion.a>
+        ))}
+      </div>
+      <div className="pb-12 flex justify-center">
+        <a
+          href="mailto:hello@rashi.design"
+          className="text-[15px] font-medium text-[#9b59b6] hover:opacity-70 transition-opacity"
+        >
+          hello@rashi.design
+        </a>
+      </div>
+    </motion.div>
+  );
+}
 export default function PlaygroundPage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const estTime = useESTTime();
   const [activeProject, setActiveProject] = useState<PlaygroundProject | null>(null);
   const closeModal = useCallback(() => setActiveProject(null), []);
@@ -572,6 +636,17 @@ export default function PlaygroundPage() {
               />
             ))}
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileMenuOpen(true)}
+            className="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-[5px]"
+            aria-label="Open menu"
+          >
+            <span className="block w-5 h-[1.5px] bg-black" />
+            <span className="block w-5 h-[1.5px] bg-black" />
+            <span className="block w-3.5 h-[1.5px] bg-black" />
+          </button>
         </div>
       </motion.nav>
 
@@ -683,6 +758,18 @@ export default function PlaygroundPage() {
         <div className="relative max-w-[1200px] mx-auto px-6 lg:px-10">
           <div className="w-full h-px bg-[#9b59b6]/15 mb-12" />
 
+          {/* Contact CTA */}
+          <div className="mb-10 text-center" style={{ fontFamily: "'Geist', sans-serif" }}>
+            <span className="text-[15px] text-black/30">Say hi</span>
+            <span className="text-[15px] text-black/20 mx-2">→</span>
+            <a
+              href="mailto:hello@rashi.design"
+              className="text-[15px] font-medium text-[#9b59b6] hover:opacity-70 transition-opacity no-underline"
+            >
+              hello@rashi.design
+            </a>
+          </div>
+
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             {/* Left — name + role */}
             <div className="flex flex-col gap-1.5">
@@ -742,6 +829,13 @@ export default function PlaygroundPage() {
       <AnimatePresence>
         {activeProject && (
           <ProjectModal project={activeProject} onClose={closeModal} />
+        )}
+      </AnimatePresence>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <MobileMenu onClose={() => setMobileMenuOpen(false)} />
         )}
       </AnimatePresence>
     </main>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 
 const VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260302_085640_276ea93b-d7da-4418-a09b-2aa5b490e838.mp4";
@@ -1125,11 +1125,13 @@ function PlaygroundSection() {
 
 /* ─── About ─── */
 
-const PHILOSOPHIES = [
-  { num: "01", text: "Systems thinking over isolated screens" },
-  { num: "02", text: "Accessibility as a default, not a feature" },
-  { num: "03", text: "Prototyping is thinking" },
-  { num: "04", text: "Details make the difference" },
+const INTEREST_TILES = [
+  { emoji: "☕", title: "Oatmilk Mocha Purist", description: "Iced, oatmilk, extra mocha. Non-negotiable." },
+  { emoji: "🎧", title: "Techno-Powered Design", description: "The BPM goes up, the Figma files get cleaner." },
+  { emoji: "🌙", title: "Night Owl by Nature", description: "Best ideas arrive after midnight. Deadlines too." },
+  { emoji: "📚", title: "Fantasy Fiction Nerd", description: "If it has a map on page one, I'm reading it." },
+  { emoji: "🎤", title: "Bedroom Songwriter", description: "Writing songs nobody asked for since forever." },
+  { emoji: "✈️", title: "10 States in 2025", description: "Aggressively checking off the US map." },
 ];
 
 const STATS = [
@@ -1139,52 +1141,7 @@ const STATS = [
   { value: "∞", label: "Rectangles Moved" },
 ];
 
-function PhilosophyCard({
-  item,
-  index,
-  constraintsRef,
-}: {
-  item: (typeof PHILOSOPHIES)[number];
-  index: number;
-  constraintsRef: React.RefObject<HTMLDivElement | null>;
-}) {
-  return (
-    <motion.div
-      drag
-      dragConstraints={constraintsRef}
-      dragElastic={0.35}
-      dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
-      whileDrag={{ scale: 1.04, zIndex: 20, boxShadow: "0 12px 32px rgba(234,176,255,0.25)" }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="relative bg-white/90 backdrop-blur-sm rounded-2xl border border-[#EAB0FF]/20 px-6 py-5 cursor-grab active:cursor-grabbing shadow-[0_2px_12px_rgba(234,176,255,0.08)] hover:shadow-[0_8px_24px_rgba(234,176,255,0.15)] hover:border-[#EAB0FF]/40 select-none transition-[box-shadow,border-color] duration-300"
-      style={{
-        marginLeft: index * 20,
-        width: "fit-content",
-        touchAction: "none",
-      }}
-    >
-      <span
-        className="text-[13px] font-bold block mb-1"
-        style={{ fontFamily: "'Geist', sans-serif", color: "#9b59b6" }}
-      >
-        {item.num}
-      </span>
-      <span
-        className="text-[15px] font-medium text-black"
-        style={{ fontFamily: "'Geist', sans-serif" }}
-      >
-        {item.text}
-      </span>
-    </motion.div>
-  );
-}
-
 function AboutSection() {
-  const constraintsRef = useRef<HTMLDivElement>(null);
-
   return (
     <section id="about" className="relative py-24 lg:py-36 overflow-hidden">
       {/* Accent background wash */}
@@ -1217,146 +1174,102 @@ function AboutSection() {
         className="absolute top-[60%] left-[8%] w-2 h-2 rounded-full"
         style={{ backgroundColor: ACCENT, opacity: 0.4 }}
       />
-      <motion.div
-        animate={{ y: [0, -8, 0], rotate: [0, 90, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-        className="absolute bottom-[25%] right-[20%] w-4 h-4 rounded-sm border-2"
-        style={{ borderColor: ACCENT, opacity: 0.3 }}
-      />
 
       <div className="relative max-w-[1200px] mx-auto px-6 lg:px-10">
-        {/* Two-column layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-          {/* Left — Photo */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+        {/* Header */}
+        <div className="max-w-[640px] mb-16">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-            className="relative flex justify-center"
+            transition={{ duration: 0.5 }}
+            className="text-[13px] font-semibold tracking-[0.2em] mb-6"
+            style={{ fontFamily: "'Geist', sans-serif", color: "#9b59b6" }}
           >
-            <div className="group/photo relative">
-              {/* Accent glow behind photo */}
-              <div
-                className="absolute -inset-8 rounded-3xl blur-2xl opacity-0 group-hover/photo:opacity-40 transition-opacity duration-700"
-                style={{ backgroundColor: ACCENT }}
-              />
+            ABOUT ME
+          </motion.p>
 
-              {/* Accent border frame */}
-              <div
-                className="absolute -inset-4 rounded-2xl border-2 rotate-[-3deg] transition-all duration-500 group-hover/photo:rotate-0 group-hover/photo:-inset-5"
-                style={{ borderColor: ACCENT }}
-              />
-              {/* Decorative corner squares */}
-              <div
-                className="absolute -top-6 -right-6 w-8 h-8 rounded-md border-2 rotate-[12deg] transition-all duration-500 group-hover/photo:rotate-0 group-hover/photo:scale-110"
-                style={{ borderColor: ACCENT, backgroundColor: "rgba(234,176,255,0.1)" }}
-              />
-              <div
-                className="absolute -bottom-5 -left-5 w-5 h-5 rounded-sm border-2 rotate-[-8deg] transition-all duration-500 group-hover/photo:rotate-0 group-hover/photo:scale-110"
-                style={{ borderColor: ACCENT, backgroundColor: "rgba(234,176,255,0.1)" }}
-              />
-              <div
-                className="absolute top-[30%] -right-8 w-3 h-3 rounded-full transition-all duration-500 group-hover/photo:scale-150"
-                style={{ backgroundColor: ACCENT, opacity: 0.5 }}
-              />
-
-              {/* Photo — larger */}
-              <div className="relative w-[400px] h-[520px] rounded-2xl overflow-hidden grayscale rotate-[-3deg] transition-all duration-500 group-hover/photo:grayscale-0 group-hover/photo:rotate-0 shadow-[0_20px_60px_rgba(0,0,0,0.1)]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/about.jpg"
-                  alt="Rashi Chaudhary"
-                  className="w-full h-full object-cover"
-                />
-                {/* Fallback gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#f0e4f6] via-[#e8d5f0] to-[#dfc0e8] -z-10" />
-                {/* Subtle accent overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#EAB0FF]/10 via-transparent to-transparent opacity-0 group-hover/photo:opacity-100 transition-opacity duration-500" />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right — Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-            className="flex flex-col gap-6"
+          <h2
+            className="text-[40px] lg:text-[56px] font-medium tracking-[-0.03em] text-black leading-[1.08] mb-6"
+            style={{ fontFamily: "'Geist', sans-serif" }}
           >
-            {/* Label */}
-            <motion.p
+            More than just{" "}
+            <span
+              className="italic"
+              style={{ fontFamily: "'Instrument Serif', serif", color: "#9b59b6" }}
+            >
+              pixels
+            </span>
+          </h2>
+
+          <p
+            className="text-[17px] leading-[1.7] text-black/50 mb-8"
+            style={{ fontFamily: "'Geist', sans-serif" }}
+          >
+            I design products that work in the real world, with edge cases,
+            constraints, and people who don&apos;t read instructions.
+          </p>
+
+          <motion.a
+            href="/about"
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 0 30px rgba(234,176,255,0.5)",
+            }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            className="inline-block rounded-[40px] px-8 py-4 text-[15px] font-semibold text-black cursor-pointer border-none no-underline"
+            style={{
+              fontFamily: "'Geist', sans-serif",
+              backgroundColor: ACCENT,
+            }}
+          >
+            Read full bio
+          </motion.a>
+        </div>
+
+        {/* Off the Clock — interest tiles */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-[13px] font-semibold tracking-[0.2em] mb-8"
+          style={{ fontFamily: "'Geist', sans-serif", color: "#9b59b6" }}
+        >
+          OFF THE CLOCK
+        </motion.p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-24">
+          {INTEREST_TILES.map((tile, i) => (
+            <motion.div
+              key={tile.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="text-[13px] font-semibold tracking-[0.2em]"
-              style={{ fontFamily: "'Geist', sans-serif", color: "#9b59b6" }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              whileHover={{ y: -4, borderColor: "rgba(234,176,255,0.5)" }}
+              className="rounded-2xl border border-[#EAB0FF]/20 bg-white/80 backdrop-blur-sm px-6 py-5 cursor-default transition-all duration-300 hover:shadow-[0_8px_30px_rgba(234,176,255,0.15)] hover:bg-white"
             >
-              ABOUT ME
-            </motion.p>
-
-            {/* Heading */}
-            <h2
-              className="text-[40px] lg:text-[56px] font-medium tracking-[-0.03em] text-black leading-[1.08]"
-              style={{ fontFamily: "'Geist', sans-serif" }}
-            >
-              More than just{" "}
+              <span className="text-[28px] block mb-2">{tile.emoji}</span>
               <span
-                className="italic"
-                style={{ fontFamily: "'Instrument Serif', serif", color: "#9b59b6" }}
+                className="text-[15px] font-semibold text-black block mb-1"
+                style={{ fontFamily: "'Geist', sans-serif" }}
               >
-                pixels
+                {tile.title}
               </span>
-            </h2>
-
-            {/* Description */}
-            <p
-              className="text-[17px] leading-[1.7] text-black/50 max-w-[480px]"
-              style={{ fontFamily: "'Geist', sans-serif" }}
-            >
-              I design products that work in the real world, with edge cases,
-              constraints, and people who don&apos;t read instructions.
-            </p>
-
-            {/* Philosophy cards — draggable bounding box */}
-            <div
-              ref={constraintsRef}
-              className="relative flex flex-col gap-3 py-4 min-h-[260px]"
-            >
-              {PHILOSOPHIES.map((item, i) => (
-                <PhilosophyCard
-                  key={item.num}
-                  item={item}
-                  index={i}
-                  constraintsRef={constraintsRef}
-                />
-              ))}
-            </div>
-
-            {/* CTA */}
-            <motion.a
-              href="/about"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 0 30px rgba(234,176,255,0.5)",
-              }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              className="self-start rounded-[40px] px-8 py-4 text-[15px] font-semibold text-black cursor-pointer border-none no-underline inline-block"
-              style={{
-                fontFamily: "'Geist', sans-serif",
-                backgroundColor: ACCENT,
-              }}
-            >
-              Read full bio
-            </motion.a>
-          </motion.div>
+              <span
+                className="text-[14px] text-black/45 leading-[1.5]"
+                style={{ fontFamily: "'Geist', sans-serif" }}
+              >
+                {tile.description}
+              </span>
+            </motion.div>
+          ))}
         </div>
 
         {/* Stats row */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-24">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {STATS.map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -1545,6 +1458,18 @@ function FooterSection() {
         {/* Divider */}
         <div className="w-full h-px bg-[#9b59b6]/15 mb-12" />
 
+        {/* Contact CTA */}
+        <div className="mb-10 text-center" style={{ fontFamily: "'Geist', sans-serif" }}>
+          <span className="text-[15px] text-black/30">Say hi</span>
+          <span className="text-[15px] text-black/20 mx-2">→</span>
+          <a
+            href="mailto:hello@rashi.design"
+            className="text-[15px] font-medium text-[#9b59b6] hover:opacity-70 transition-opacity no-underline"
+          >
+            hello@rashi.design
+          </a>
+        </div>
+
         {/* Footer content — 3 columns */}
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
           {/* Left — name + role */}
@@ -1598,7 +1523,76 @@ function FooterSection() {
 
 /* ─── Page ─── */
 
+/* ─── Mobile Menu ─── */
+
+function MobileMenu({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = ""; };
+  }, []);
+
+  const menuLinks = [
+    { label: "Case Studies", href: "#case-studies" },
+    { label: "Playground", href: "/playground" },
+    { label: "About", href: "/about" },
+    { label: "Resume", href: "#" },
+    { label: "LinkedIn", href: "#" },
+  ];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[9999] bg-white flex flex-col"
+      style={{ fontFamily: "'Geist', sans-serif" }}
+    >
+      {/* Close button */}
+      <div className="flex justify-end px-6 py-6">
+        <button
+          onClick={onClose}
+          className="w-10 h-10 flex items-center justify-center"
+          aria-label="Close menu"
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M1 1L17 17M17 1L1 17" stroke="black" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Nav links */}
+      <div className="flex-1 flex flex-col items-center justify-center gap-8">
+        {menuLinks.map((link, i) => (
+          <motion.a
+            key={link.label}
+            href={link.href}
+            onClick={onClose}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 + i * 0.05, duration: 0.3 }}
+            className="text-[28px] font-medium text-black tracking-[-0.01em] hover:text-[#9b59b6] transition-colors"
+          >
+            {link.label}
+          </motion.a>
+        ))}
+      </div>
+
+      {/* Email CTA at bottom */}
+      <div className="pb-12 flex justify-center">
+        <a
+          href="mailto:hello@rashi.design"
+          className="text-[15px] font-medium text-[#9b59b6] hover:opacity-70 transition-opacity"
+        >
+          hello@rashi.design
+        </a>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function HeroPage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const estTime = useESTTime();
 
   return (
@@ -1625,7 +1619,7 @@ export default function HeroPage() {
           variants={fadeSlideUp}
           initial="hidden"
           animate="visible"
-          className="relative z-10 flex items-center justify-between px-10 py-6 max-w-[1200px] mx-auto"
+          className="relative z-10 flex items-center justify-between px-6 lg:px-10 py-6 max-w-[1200px] mx-auto"
           style={{ fontFamily: "'Geist', sans-serif" }}
         >
           <div className="flex items-center gap-3">
@@ -1640,7 +1634,7 @@ export default function HeroPage() {
                 <path d="M0 0L14 8L0 16V0Z" fill="#fff" />
               </svg>
             </div>
-            <div className="flex items-center gap-2 text-[13px] text-[#373a46]/60 tracking-wide">
+            <div className="hidden sm:flex items-center gap-2 text-[13px] text-[#373a46]/60 tracking-wide">
               <span className="font-medium text-black">Rashi</span>
               <span className="text-black/20">&middot;</span>
               <span>{estTime || "\u2014"}</span>
@@ -1653,7 +1647,7 @@ export default function HeroPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-10">
+          <div className="hidden lg:flex items-center gap-10">
             {NAV_LINKS.map((link) => (
               <FlipNavLink
                 key={link.label}
@@ -1662,6 +1656,17 @@ export default function HeroPage() {
               />
             ))}
           </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileMenuOpen(true)}
+            className="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-[5px]"
+            aria-label="Open menu"
+          >
+            <span className="block w-5 h-[1.5px] bg-black" />
+            <span className="block w-5 h-[1.5px] bg-black" />
+            <span className="block w-3.5 h-[1.5px] bg-black" />
+          </button>
         </motion.nav>
 
         {/* Hero Content — raised up from pt-[290px] to pt-[200px] */}
@@ -1809,6 +1814,13 @@ export default function HeroPage() {
 
       {/* Footer */}
       <FooterSection />
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <MobileMenu onClose={() => setMobileMenuOpen(false)} />
+        )}
+      </AnimatePresence>
     </main>
   );
 }

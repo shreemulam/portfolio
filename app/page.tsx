@@ -1079,13 +1079,13 @@ function PlaygroundSection() {
           </a>
         </motion.div>
 
-        {/* Arrow nav */}
+        {/* Arrow nav — desktop only */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex items-center gap-3 mt-2"
+          className="hidden lg:flex items-center gap-3 mt-2"
         >
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -1137,6 +1137,28 @@ function PlaygroundSection() {
         {[...PLAYGROUND_PROJECTS, ...PLAYGROUND_PROJECTS].map((project, i) => (
           <PlaygroundCard key={i} project={project} index={i} />
         ))}
+      </div>
+
+      {/* Arrow nav — mobile only, below carousel */}
+      <div className="flex lg:hidden items-center justify-center gap-4 mt-4 px-6">
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={() => scroll(-1)}
+          className="w-11 h-11 rounded-full border border-black/10 flex items-center justify-center cursor-pointer bg-white"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M10 3L5 8L10 13" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </motion.button>
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={() => scroll(1)}
+          className="w-11 h-11 rounded-full border border-black/10 flex items-center justify-center cursor-pointer bg-white"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 3L11 8L6 13" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </motion.button>
       </div>
     </section>
   );
@@ -1301,10 +1323,10 @@ function AboutSection() {
                 ease: [0.25, 0.4, 0.25, 1],
               }}
               whileHover={{ scale: 1.05, y: -4 }}
-              className="flex flex-col items-center gap-2 py-8 rounded-2xl border border-[#EAB0FF]/20 bg-white/80 backdrop-blur-sm cursor-default transition-all duration-300 hover:border-[#EAB0FF]/60 hover:shadow-[0_8px_30px_rgba(234,176,255,0.2)] hover:bg-white"
+              className="flex flex-col items-center gap-2 py-6 sm:py-8 px-3 rounded-2xl border border-[#EAB0FF]/20 bg-white/80 backdrop-blur-sm cursor-default transition-all duration-300 hover:border-[#EAB0FF]/60 hover:shadow-[0_8px_30px_rgba(234,176,255,0.2)] hover:bg-white"
             >
               <span
-                className="text-[42px] lg:text-[52px] font-medium tracking-[-0.02em]"
+                className="text-[32px] sm:text-[42px] lg:text-[52px] font-medium tracking-[-0.02em]"
                 style={{
                   fontFamily: "'Geist', sans-serif",
                   color: "#9b59b6",
@@ -1313,7 +1335,7 @@ function AboutSection() {
                 {stat.value}
               </span>
               <span
-                className="text-[14px] text-black/40 font-medium"
+                className="text-[13px] sm:text-[14px] text-black/40 font-medium text-center"
                 style={{ fontFamily: "'Geist', sans-serif" }}
               >
                 {stat.label}
@@ -1398,21 +1420,6 @@ function FooterSection() {
       <div className="relative max-w-[1200px] mx-auto px-6 lg:px-10">
         {/* Easter egg pill */}
         <div className="flex flex-col items-center mb-20">
-          {/* Bouncing pointer before first click */}
-          <div className="h-8 mb-2 flex items-center justify-center" style={{ pointerEvents: "none" }}>
-            <motion.span
-              animate={!hasClicked ? { y: [0, -8, 0], opacity: 1 } : { opacity: 0, y: -10 }}
-              transition={
-                !hasClicked
-                  ? { duration: 1.2, repeat: Infinity, ease: "easeInOut" }
-                  : { duration: 0.2 }
-              }
-              className="text-[20px]"
-            >
-              {"\u{1F446}"}
-            </motion.span>
-          </div>
-
           {/* Pill */}
           <motion.button
             onClick={handleClick}
@@ -1431,6 +1438,21 @@ function FooterSection() {
               {pillText}
             </motion.span>
           </motion.button>
+
+          {/* Bouncing pointer below pill — before first click */}
+          <div className="h-8 mt-2 flex items-center justify-center" style={{ pointerEvents: "none" }}>
+            <motion.span
+              animate={!hasClicked ? { y: [0, -8, 0], opacity: 1 } : { opacity: 0, y: -10 }}
+              transition={
+                !hasClicked
+                  ? { duration: 1.2, repeat: Infinity, ease: "easeInOut" }
+                  : { duration: 0.2 }
+              }
+              className="text-[20px]"
+            >
+              {"\u{1F446}"}
+            </motion.span>
+          </div>
 
           {/* Green threshold line */}
           <div className="h-8 flex items-center">
@@ -1644,30 +1666,13 @@ export default function HeroPage() {
           className="relative z-10 flex items-center justify-between px-6 lg:px-10 py-6 max-w-[1200px] mx-auto"
           style={{ fontFamily: "'Geist', sans-serif" }}
         >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-b from-[#2c2c2c] to-[#1a1a1a] shadow-[inset_-4px_-6px_25px_0px_rgba(201,201,201,0.08),inset_4px_4px_10px_0px_rgba(29,29,29,0.24)]">
-              <svg
-                width="12"
-                height="14"
-                viewBox="0 0 14 16"
-                fill="none"
-                className="ml-0.5"
-              >
-                <path d="M0 0L14 8L0 16V0Z" fill="#fff" />
-              </svg>
-            </div>
-            <div className="hidden sm:flex items-center gap-2 text-[13px] text-[#373a46]/60 tracking-wide">
-              <span className="font-medium text-black">Rashi</span>
-              <span className="text-black/20">&middot;</span>
-              <span>{estTime || "\u2014"}</span>
-              <span className="text-black/20">&middot;</span>
-              <span>NYC</span>
-              <span className="text-black/15 mx-0.5">|</span>
-              <span className="truncate max-w-[200px]">
-                The Naturals by Jennife...
-              </span>
-            </div>
-          </div>
+          <a href="/" className="flex items-center gap-2 text-[13px] text-[#373a46]/60 tracking-wide no-underline">
+            <span className="font-medium text-black">Rashi</span>
+            <span className="text-black/20">&middot;</span>
+            <span>{estTime || "\u2014"}</span>
+            <span className="text-black/20">&middot;</span>
+            <span>NYC</span>
+          </a>
 
           <div className="hidden lg:flex items-center gap-10">
             {NAV_LINKS.map((link) => (
@@ -1728,7 +1733,7 @@ export default function HeroPage() {
             variants={fadeSlideUp}
             initial="hidden"
             animate="visible"
-            className="flex items-center gap-3 mt-4"
+            className="flex flex-col sm:flex-row items-center gap-3 mt-4 text-center sm:text-left"
           >
             <AccrueLogo />
             <p
@@ -1748,7 +1753,7 @@ export default function HeroPage() {
             variants={fadeSlideUp}
             initial="hidden"
             animate="visible"
-            className="flex items-center gap-4 mt-6"
+            className="flex flex-col sm:flex-row items-center gap-4 mt-6"
           >
             <p
               className="text-[16px] text-[#373a46]/50"

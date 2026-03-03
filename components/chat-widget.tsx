@@ -39,8 +39,9 @@ export default function ChatWidget() {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
+  // Only auto-focus on desktop — mobile keyboard is annoying on open
   useEffect(() => {
-    if (open && inputRef.current) {
+    if (open && inputRef.current && window.innerWidth >= 1024) {
       inputRef.current.focus();
     }
   }, [open]);
@@ -156,7 +157,7 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="fixed bottom-40 right-8 z-50 w-[360px] max-h-[480px] rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+            className="fixed bottom-40 right-4 left-4 sm:left-auto sm:right-8 z-50 sm:w-[360px] max-h-[480px] rounded-2xl shadow-2xl overflow-hidden flex flex-col"
             style={{
               backgroundColor: "#fff",
               border: "1px solid #e8e8e8",
@@ -266,7 +267,7 @@ export default function ChatWidget() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && sendText(input.trim())}
                 placeholder="Ask about Rashi..."
-                className="flex-1 text-[13px] bg-transparent outline-none text-black placeholder:text-black/30"
+                className="flex-1 text-[16px] sm:text-[13px] bg-transparent outline-none text-black placeholder:text-black/30"
                 disabled={loading}
               />
               <button

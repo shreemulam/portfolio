@@ -606,7 +606,7 @@ export default function PlaygroundPage() {
   const closeModal = useCallback(() => setActiveProject(null), []);
 
   return (
-    <main className="min-h-screen bg-white" style={{ fontFamily: FONT }}>
+    <main className="min-h-screen bg-white overflow-x-hidden" style={{ fontFamily: FONT }}>
       {/* ── Navbar ── */}
       <motion.nav
         custom={0}

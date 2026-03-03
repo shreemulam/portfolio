@@ -505,9 +505,15 @@ function PhotoGallery() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  function scrollGallery(dir: number) {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollLeft += dir * 300;
+  }
+
   return (
     <section className="relative py-16 lg:py-24 overflow-hidden">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-10 mb-10">
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-10 mb-10 flex items-center justify-between">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -518,6 +524,28 @@ function PhotoGallery() {
         >
           LIFE IN PHOTOS
         </motion.p>
+        <div className="flex items-center gap-3">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => scrollGallery(-1)}
+            className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center cursor-pointer bg-white hover:border-[#EAB0FF]/50 transition-colors duration-200"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M10 3L5 8L10 13" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => scrollGallery(1)}
+            className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center cursor-pointer bg-white hover:border-[#EAB0FF]/50 transition-colors duration-200"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M6 3L11 8L6 13" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </motion.button>
+        </div>
       </div>
 
       <div
@@ -619,7 +647,7 @@ export default function AboutPage() {
 
   return (
     <main
-      className="min-h-screen bg-white"
+      className="min-h-screen bg-white overflow-x-hidden"
       style={{ fontFamily: FONT }}
     >
       {/* ─��� Navbar ── */}

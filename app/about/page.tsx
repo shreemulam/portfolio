@@ -505,41 +505,33 @@ export default function AboutPage() {
         variants={fadeSlideUp}
         initial="hidden"
         animate="visible"
-        className="sticky top-0 z-50 flex items-center justify-between px-6 lg:px-10 py-6 max-w-[1200px] mx-auto backdrop-blur-xl bg-white/80"
+        className="sticky top-0 z-50 w-full backdrop-blur-xl bg-white/80"
         style={{ fontFamily: FONT }}
       >
-        <a href="/" className="flex items-center gap-3 no-underline">
-          <div className="flex items-center gap-2 text-[13px] text-[#373a46]/60 tracking-wide">
-            <span className="font-medium text-black">Rashi</span>
-            <span className="text-black/20">&middot;</span>
-            <span>{estTime || "\u2014"}</span>
-            <span className="text-black/20">&middot;</span>
-            <span>NYC</span>
-          </div>
-        </a>
+        <div className="flex items-center justify-between px-6 lg:px-10 py-6 max-w-[1200px] mx-auto">
+          <a href="/" className="flex items-center gap-3 no-underline">
+            <div className="flex items-center gap-2 text-[13px] text-[#373a46]/60 tracking-wide">
+              <span className="font-medium text-black">Rashi</span>
+              <span className="text-black/20">&middot;</span>
+              <span>{estTime || "\u2014"}</span>
+              <span className="text-black/20">&middot;</span>
+              <span>NYC</span>
+            </div>
+          </a>
 
-        <div className="hidden lg:flex items-center gap-10">
-          {NAV_LINKS.map((link) => (
-            <FlipNavLink key={link.label} label={link.label} href={link.href} />
-          ))}
+          <div className="hidden lg:flex items-center gap-10">
+            {NAV_LINKS.map((link) => (
+              <FlipNavLink key={link.label} label={link.label} href={link.href} />
+            ))}
+          </div>
         </div>
       </motion.nav>
 
-      {/* ── Background wash ── */}
+      {/* ── Background wash — white top, gradual accent at bottom ── */}
       <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#fdf6ff] via-[#f9eefb] to-white pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white via-[60%] to-[#f9eefb] pointer-events-none" />
 
-        {/* Floating accent blobs */}
-        <motion.div
-          animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute top-[10%] left-[-5%] w-[500px] h-[500px] rounded-full blur-[120px] opacity-25 pointer-events-none"
-          style={{ backgroundColor: ACCENT }}
-        />
+        {/* Floating accent blob — only near bottom for subtle warmth */}
         <motion.div
           animate={{ y: [0, 15, 0], x: [0, -8, 0] }}
           transition={{
@@ -548,7 +540,7 @@ export default function AboutPage() {
             ease: "easeInOut",
             delay: 2,
           }}
-          className="absolute bottom-[5%] right-[-8%] w-[400px] h-[400px] rounded-full blur-[100px] opacity-15 pointer-events-none"
+          className="absolute bottom-[5%] right-[-8%] w-[400px] h-[400px] rounded-full blur-[120px] opacity-15 pointer-events-none"
           style={{ backgroundColor: ACCENT }}
         />
 
@@ -557,7 +549,7 @@ export default function AboutPage() {
           animate={{ y: [0, -12, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-[20%] right-[12%] w-3 h-3 rounded-full pointer-events-none"
-          style={{ backgroundColor: ACCENT, opacity: 0.5 }}
+          style={{ backgroundColor: ACCENT, opacity: 0.35 }}
         />
         <motion.div
           animate={{ y: [0, 10, 0] }}
@@ -568,7 +560,7 @@ export default function AboutPage() {
             delay: 1,
           }}
           className="absolute top-[60%] left-[8%] w-2 h-2 rounded-full pointer-events-none"
-          style={{ backgroundColor: ACCENT, opacity: 0.4 }}
+          style={{ backgroundColor: ACCENT, opacity: 0.3 }}
         />
 
         {/* ── Content ── */}
@@ -651,11 +643,11 @@ export default function AboutPage() {
                 {FUN_FACTS.map((item, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{
-                      duration: 0.5,
-                      delay: 0.3 + i * 0.1,
+                      duration: 0.25,
+                      delay: 0.15 + i * 0.04,
                       ease: [0.25, 0.4, 0.25, 1],
                     }}
                     whileHover={{

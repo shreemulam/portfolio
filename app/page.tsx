@@ -995,10 +995,27 @@ function PlaygroundSection() {
     const el = scrollRef.current;
     if (!el) return;
     arrowPause.current = true;
-    el.scrollBy({ left: dir * 320, behavior: "smooth" });
+    const cards = Array.from(el.children) as HTMLElement[];
+    const containerCenter = el.scrollLeft + el.clientWidth / 2;
+    // Find the card closest to center
+    let closestIdx = 0;
+    let closestDist = Infinity;
+    cards.forEach((card, i) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const dist = Math.abs(cardCenter - containerCenter);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closestIdx = i;
+      }
+    });
+    // Target the next/prev card
+    const targetIdx = Math.max(0, Math.min(cards.length - 1, closestIdx + dir));
+    const target = cards[targetIdx];
+    const targetScroll = target.offsetLeft - (el.clientWidth / 2) + (target.offsetWidth / 2);
+    el.scrollTo({ left: targetScroll, behavior: "smooth" });
     setTimeout(() => {
       arrowPause.current = false;
-    }, 800);
+    }, 600);
   }, []);
 
   return (
@@ -1112,6 +1129,8 @@ function PlaygroundSection() {
         ref={scrollRef}
         onMouseEnter={() => (isPaused.current = true)}
         onMouseLeave={() => (isPaused.current = false)}
+        onTouchStart={() => (isPaused.current = true)}
+        onTouchEnd={() => (isPaused.current = false)}
         className="flex gap-6 pl-10 pr-10 py-10 overflow-x-hidden overflow-y-visible"
         style={{ scrollbarWidth: "none" }}
       >
@@ -1471,7 +1490,7 @@ function FooterSection() {
         </div>
 
         {/* Footer content — 3 columns */}
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+        <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between gap-6 lg:gap-8 text-center lg:text-left">
           {/* Left — name + role */}
           <div className="flex flex-col gap-1.5">
             <span
@@ -1490,7 +1509,7 @@ function FooterSection() {
 
           {/* Center — nav links */}
           <div
-            className="flex items-center gap-8"
+            className="flex flex-wrap items-center justify-center gap-4 lg:gap-8"
             style={{ fontFamily: "'Geist', sans-serif" }}
           >
             {[
@@ -1505,7 +1524,7 @@ function FooterSection() {
 
           {/* Right — copyright */}
           <div
-            className="flex flex-col items-end gap-1 text-right"
+            className="flex flex-col items-center gap-1 text-center lg:items-end lg:text-right"
             style={{ fontFamily: "'Geist Mono', monospace" }}
           >
             <span className="text-[13px] text-black/25">
@@ -1687,12 +1706,12 @@ export default function HeroPage() {
             variants={fadeSlideUp}
             initial="hidden"
             animate="visible"
-            className="text-[80px] leading-[1.05] font-medium tracking-[-0.04em] text-black"
+            className="text-[40px] sm:text-[56px] lg:text-[80px] leading-[1.05] font-medium tracking-[-0.04em] text-black"
             style={{ fontFamily: "'Geist', sans-serif" }}
           >
             Moving{" "}
             <span
-              className="italic text-[100px]"
+              className="italic text-[50px] sm:text-[70px] lg:text-[100px]"
               style={{ fontFamily: "'Instrument Serif', serif" }}
             >
               rectangles

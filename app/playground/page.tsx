@@ -770,7 +770,7 @@ export default function PlaygroundPage() {
             </a>
           </div>
 
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+          <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between gap-6 lg:gap-8 text-center lg:text-left">
             {/* Left — name + role */}
             <div className="flex flex-col gap-1.5">
               <span
@@ -789,7 +789,7 @@ export default function PlaygroundPage() {
 
             {/* Center — nav links */}
             <div
-              className="flex items-center gap-8"
+              className="flex flex-wrap items-center justify-center gap-4 lg:gap-8"
               style={{ fontFamily: FONT }}
             >
               {[
@@ -809,7 +809,7 @@ export default function PlaygroundPage() {
 
             {/* Right — copyright */}
             <div
-              className="flex flex-col items-end gap-1 text-right"
+              className="flex flex-col items-center gap-1 text-center lg:items-end lg:text-right"
               style={{ fontFamily: "'Geist Mono', monospace" }}
             >
               <span className="text-[13px] text-black/25">

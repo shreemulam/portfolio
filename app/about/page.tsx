@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown } from "lucide-react";
 
@@ -484,6 +484,88 @@ function HowIThinkSection() {
 /* ─── Page ─── */
 
 
+
+/* ─── Photo Gallery ─── */
+
+const GALLERY_PHOTOS = [
+  { src: "/gallery/photo-1.jpg", alt: "Travel" },
+  { src: "/gallery/photo-2.jpg", alt: "Food" },
+  { src: "/gallery/photo-3.jpg", alt: "Art" },
+  { src: "/gallery/photo-4.jpg", alt: "Travel" },
+  { src: "/gallery/photo-5.jpg", alt: "Food" },
+  { src: "/gallery/photo-6.jpg", alt: "Art" },
+  { src: "/gallery/photo-7.jpg", alt: "Travel" },
+  { src: "/gallery/photo-8.jpg", alt: "Food" },
+];
+
+function PhotoGallery() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isPaused = useRef(false);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    let raf: number;
+    const tick = () => {
+      if (!isPaused.current) {
+        el.scrollLeft += 0.5;
+        if (el.scrollLeft >= el.scrollWidth / 2) {
+          el.scrollLeft = 0;
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  return (
+    <section className="relative py-16 lg:py-24 overflow-hidden">
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-10 mb-10">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-[13px] font-semibold tracking-[0.2em]"
+          style={{ fontFamily: FONT, color: ACCENT_TEXT }}
+        >
+          LIFE IN PHOTOS
+        </motion.p>
+      </div>
+
+      <div
+        ref={scrollRef}
+        onMouseEnter={() => (isPaused.current = true)}
+        onMouseLeave={() => (isPaused.current = false)}
+        onTouchStart={() => (isPaused.current = true)}
+        onTouchEnd={() => (isPaused.current = false)}
+        className="flex gap-4 px-6 overflow-x-hidden"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {[...GALLERY_PHOTOS, ...GALLERY_PHOTOS].map((photo, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: (i % GALLERY_PHOTOS.length) * 0.05 }}
+            className="flex-shrink-0 w-[280px] h-[360px] rounded-2xl overflow-hidden bg-gradient-to-br from-[#f0e4f6] via-[#e8d5f0] to-[#dfc0e8]"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={photo.src}
+              alt={photo.alt}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+}
 /* ─── Mobile Menu ─── */
 
 function MobileMenu({ onClose }: { onClose: () => void }) {
@@ -1055,6 +1137,9 @@ export default function AboutPage() {
         </div>
       </div>
 
+
+      {/* ── Photo Gallery ── */}
+      <PhotoGallery />
       {/* ── Footer ── */}
       <footer className="relative bg-gradient-to-b from-[#f9eefb] to-[#f3e4f7] pt-16 pb-12 overflow-hidden">
         <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-white/60 to-transparent" />
@@ -1074,7 +1159,7 @@ export default function AboutPage() {
             </a>
           </div>
 
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+          <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between gap-6 lg:gap-8 text-center lg:text-left">
             {/* Left — name + role */}
             <div className="flex flex-col gap-1.5">
               <span
@@ -1093,7 +1178,7 @@ export default function AboutPage() {
 
             {/* Center — nav links */}
             <div
-              className="flex items-center gap-8"
+              className="flex flex-wrap items-center justify-center gap-4 lg:gap-8"
               style={{ fontFamily: FONT }}
             >
               {[
@@ -1112,7 +1197,7 @@ export default function AboutPage() {
 
             {/* Right — copyright */}
             <div
-              className="flex flex-col items-end gap-1 text-right"
+              className="flex flex-col items-center gap-1 text-center lg:items-end lg:text-right"
               style={{ fontFamily: "'Geist Mono', monospace" }}
             >
               <span className="text-[13px] text-black/25">

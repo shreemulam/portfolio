@@ -27,7 +27,7 @@ const fadeSlideUp = {
 
 const NAV_LINKS = [
   { label: "CASE STUDIES", href: "/#case-studies" },
-  { label: "PLAYGROUND", href: "/#playground" },
+  { label: "PLAYGROUND", href: "/playground" },
   { label: "ABOUT", href: "/about" },
   { label: "RESUME", href: "#" },
   { label: "LINKEDIN", href: "#" },
@@ -1011,7 +1011,7 @@ export default function AboutPage() {
             >
               {[
                 { label: "CASE STUDIES", href: "/#case-studies" },
-                { label: "PLAYGROUND", href: "/#playground" },
+                { label: "PLAYGROUND", href: "/playground" },
                 { label: "LINKEDIN", href: "#" },
                 { label: "RESUME", href: "#" },
               ].map((link) => (

@@ -23,7 +23,7 @@ const fadeSlideUp = {
 
 const NAV_LINKS = [
   { label: "CASE STUDIES", href: "#case-studies" },
-  { label: "PLAYGROUND", href: "#" },
+  { label: "PLAYGROUND", href: "/playground" },
   { label: "ABOUT", href: "/about" },
   { label: "RESUME", href: "#" },
   { label: "LINKEDIN", href: "#" },
@@ -1539,7 +1539,7 @@ function FooterSection() {
             style={{ fontFamily: "'Geist', sans-serif" }}
           >
             {[
-              { label: "PLAYGROUND", href: "#" },
+              { label: "PLAYGROUND", href: "/playground" },
               { label: "ABOUT", href: "/about" },
               { label: "LINKEDIN", href: "#" },
               { label: "RESUME", href: "#" },

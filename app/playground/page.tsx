@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 /* ─── Constants ─── */
 
@@ -37,7 +37,10 @@ type BentoSize = "large" | "wide" | "tall" | "small";
 interface PlaygroundProject {
   tags: string[];
   title: string;
+  subtitle: string;
   description: string;
+  longDescription: string;
+  footerNote: string;
   gradient: string;
   size: BentoSize;
 }
@@ -46,70 +49,115 @@ const BENTO_PROJECTS: PlaygroundProject[] = [
   {
     tags: ["Visual", "CSS"],
     title: "Gradient Experiments",
+    subtitle: "CSS & Canvas • 2026",
     description:
       "Exploring dynamic color gradients with CSS and canvas — generative palettes, mesh gradients, and noise-driven color fields.",
+    longDescription:
+      "A deep dive into generative color — from layered CSS gradients and mesh interpolation to canvas-driven noise fields. Each experiment starts with a simple seed palette and evolves through procedural rules, blending perceptual color spaces (OKLCH, LAB) with randomization to produce palettes that feel both intentional and alive.",
+    footerNote:
+      "This experiment is part of my ongoing exploration into generative visual systems and how math can produce beauty.",
     gradient: "from-[#f5edf8] via-[#e8d5f0] to-[#dfc0e8]",
     size: "large",
   },
   {
     tags: ["Motion", "React"],
     title: "Micro-interactions",
+    subtitle: "React & Motion • 2026",
     description: "Reusable animation patterns for product interfaces",
+    longDescription:
+      "A library of polished micro-interactions built with React and Motion — hover reveals, stagger sequences, spring-based transitions, and layout animations. Each pattern is designed to be composable, performant, and production-ready.",
+    footerNote:
+      "Built as a personal reference for interaction patterns I reach for across product work.",
     gradient: "from-[#e8f0fa] via-[#d5e2f5] to-[#c0d5f0]",
     size: "wide",
   },
   {
     tags: ["3D", "WebGL"],
     title: "Depth Studies",
+    subtitle: "Three.js & WebGL • 2025",
     description:
       "Playing with parallax and 3D transforms in the browser",
+    longDescription:
+      "Exploring how depth and dimensionality can enhance flat interfaces — parallax scroll effects, CSS 3D transforms, and lightweight Three.js scenes. The goal is to find the sweet spot where 3D adds meaning without becoming a gimmick.",
+    footerNote:
+      "An ongoing study in bringing spatial depth to traditionally flat digital experiences.",
     gradient: "from-[#f0e8f8] via-[#e0d5f0] to-[#d0c0e8]",
     size: "small",
   },
   {
     tags: ["Typography", "Layout"],
     title: "Type Specimens",
+    subtitle: "Variable Fonts & CSS • 2026",
     description: "Variable font explorations and kinetic typography",
+    longDescription:
+      "Experiments with variable font axes — weight, width, slant, and custom axes — animated through scroll position, cursor movement, and time. Each specimen pairs a typeface with a layout concept to show how type can be both functional and expressive.",
+    footerNote:
+      "Typography is the skeleton of design. These specimens explore how far that skeleton can dance.",
     gradient: "from-[#faf0e8] via-[#f5e8d8] to-[#f0e0c8]",
     size: "tall",
   },
   {
     tags: ["Data Viz", "SVG"],
     title: "Chart Sketches",
+    subtitle: "D3 & SVG • 2025",
     description:
       "Experimental chart types and data storytelling ideas",
+    longDescription:
+      "Sketches for unconventional data visualizations — radial bar charts, beeswarm plots, stream graphs, and annotated sparklines. Each sketch prioritizes clarity and narrative over decoration, treating data as a story to be told.",
+    footerNote:
+      "Inspired by the work of Edward Tufte, Giorgia Lupi, and the belief that data deserves better than pie charts.",
     gradient: "from-[#e8f5f0] via-[#d5f0e8] to-[#c0e8d8]",
     size: "small",
   },
   {
     tags: ["UI", "Prototype"],
     title: "Component Lab",
+    subtitle: "React & Tailwind • 2026",
     description:
       "Prototyping new interaction patterns and UI primitives",
+    longDescription:
+      "A sandbox for building and stress-testing UI components — custom selects, command palettes, drag-and-drop builders, and adaptive layouts. Each component is built from scratch to understand the mechanics before reaching for a library.",
+    footerNote:
+      "Understanding primitives deeply is the fastest way to build anything complex.",
     gradient: "from-[#f8f0e8] via-[#f0e5d8] to-[#e8dac8]",
     size: "wide",
   },
   {
     tags: ["Color", "Theory"],
     title: "Color Systems",
+    subtitle: "OKLCH & Design Tokens • 2026",
     description:
       "Building adaptive color palettes from perceptual models",
+    longDescription:
+      "Developing color systems that adapt to context — light/dark modes, brand theming, and accessibility constraints — all grounded in perceptual color models like OKLCH. The goal is palettes that are mathematically consistent and visually harmonious.",
+    footerNote:
+      "Color is the most subjective element of design. These systems try to make it a little more objective.",
     gradient: "from-[#f8e8f0] via-[#f0d8e8] to-[#e8c8e0]",
     size: "wide",
   },
   {
     tags: ["Gesture", "Mobile"],
     title: "Interaction Patterns",
+    subtitle: "Touch & Gesture APIs • 2025",
     description:
       "Swipe, drag, and gesture-driven interface explorations",
+    longDescription:
+      "Prototyping gesture-first interactions for mobile — swipe-to-dismiss, drag-to-reorder, pinch-to-zoom, and custom gesture recognizers. Each pattern focuses on making touch feel natural and responsive, not just functional.",
+    footerNote:
+      "The best interfaces disappear. These experiments explore how gesture can replace chrome.",
     gradient: "from-[#e8e8fa] via-[#d8d8f5] to-[#c8c8f0]",
     size: "small",
   },
   {
     tags: ["Audio", "Feedback"],
     title: "Sound & UI",
+    subtitle: "Web Audio API • 2025",
     description:
       "Pairing interface states with subtle audio feedback",
+    longDescription:
+      "Exploring the role of sound in digital interfaces — micro-sounds for button presses, ambient tones for state changes, and earcons for notifications. Each experiment pairs a visual interaction with an audio counterpart to test whether sound enhances or distracts.",
+    footerNote:
+      "We design for eyes constantly. These experiments ask: what if we designed for ears too?",
     gradient: "from-[#f0f0e8] via-[#e8e8d8] to-[#e0e0c8]",
     size: "tall",
   },
@@ -179,14 +227,158 @@ function slugify(title: string) {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
+/* ─── Project Modal ─── */
+
+function ProjectModal({
+  project,
+  onClose,
+}: {
+  project: PlaygroundProject;
+  onClose: () => void;
+}) {
+  // Close on Escape key
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8"
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+
+      {/* Modal */}
+      <motion.div
+        initial={{ opacity: 0, y: 30, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 20, scale: 0.97 }}
+        transition={{ duration: 0.35, ease: [0.25, 0.4, 0.25, 1] }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-[640px] max-h-[90vh] overflow-y-auto rounded-2xl bg-white border border-black/[0.08] shadow-[0_32px_100px_rgba(0,0,0,0.12),0_0_0_1px_rgba(234,176,255,0.08)]"
+        style={{ fontFamily: FONT }}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-5 right-5 z-10 w-9 h-9 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center transition-colors duration-200 cursor-pointer border-none"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path
+              d="M1 1L13 13M13 1L1 13"
+              stroke="black"
+              strokeOpacity="0.5"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+
+        {/* Preview area with gradient */}
+        <div
+          className={`relative w-full h-[220px] sm:h-[260px] bg-gradient-to-br ${project.gradient} overflow-hidden`}
+        >
+          {/* Grid overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.04]"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px)",
+              backgroundSize: "40px 40px",
+            }}
+          />
+          {/* Decorative blob */}
+          <div
+            className="absolute top-[25%] left-[15%] w-[200px] h-[200px] rounded-full blur-3xl"
+            style={{ backgroundColor: "rgba(234,176,255,0.2)" }}
+          />
+          <div
+            className="absolute bottom-[20%] right-[10%] w-[120px] h-[120px] rounded-full blur-3xl"
+            style={{ backgroundColor: "rgba(155,89,182,0.08)" }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="px-8 sm:px-10 pt-8 pb-10">
+          {/* Tags */}
+          <div className="flex gap-2 mb-4">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="text-[11px] font-medium tracking-wide border rounded-full px-3 py-1"
+                style={{ color: ACCENT_TEXT, borderColor: "rgba(234,176,255,0.4)" }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* Subtitle */}
+          <p
+            className="text-[13px] font-medium tracking-wide text-black/40 mb-2"
+            style={{ fontFamily: FONT }}
+          >
+            {project.subtitle}
+          </p>
+
+          {/* Title */}
+          <h2
+            className="text-[32px] sm:text-[36px] font-medium tracking-[-0.03em] text-black leading-[1.12] mb-6"
+            style={{ fontFamily: "'Instrument Serif', serif" }}
+          >
+            {project.title}
+          </h2>
+
+          {/* Description */}
+          <p
+            className="text-[15px] leading-[1.7] text-black/55 mb-8"
+            style={{ fontFamily: FONT }}
+          >
+            {project.longDescription}
+          </p>
+
+          {/* Divider */}
+          <div
+            className="w-full h-px mb-6"
+            style={{ backgroundColor: "rgba(234,176,255,0.25)" }}
+          />
+
+          {/* Footer note */}
+          <p
+            className="text-[13px] leading-[1.6] text-black/35 italic"
+            style={{ fontFamily: FONT }}
+          >
+            {project.footerNote}
+          </p>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 /* ─── Bento Card ─── */
 
 function BentoCard({
   project,
   index,
+  onClick,
 }: {
   project: PlaygroundProject;
   index: number;
+  onClick: () => void;
 }) {
   const isLarge = project.size === "large";
 
@@ -207,6 +399,7 @@ function BentoCard({
           "0 20px 60px rgba(234,176,255,0.15), 0 8px 24px rgba(0,0,0,0.06)",
         borderColor: "rgba(234,176,255,0.5)",
       }}
+      onClick={onClick}
       className={`${BENTO_GRID_CLASSES[project.size]} relative rounded-2xl overflow-hidden border border-black/[0.08] bg-white shadow-[0_2px_20px_rgba(0,0,0,0.04)] cursor-pointer group/card`}
       style={{
         minHeight: isLarge ? 480 : project.size === "tall" ? 480 : 240,
@@ -345,6 +538,8 @@ function BentoCard({
 
 export default function PlaygroundPage() {
   const estTime = useESTTime();
+  const [activeProject, setActiveProject] = useState<PlaygroundProject | null>(null);
+  const closeModal = useCallback(() => setActiveProject(null), []);
 
   return (
     <main className="min-h-screen bg-white" style={{ fontFamily: FONT }}>
@@ -474,6 +669,7 @@ export default function PlaygroundPage() {
                 key={project.title}
                 project={project}
                 index={index}
+                onClick={() => setActiveProject(project)}
               />
             ))}
           </div>
@@ -539,6 +735,13 @@ export default function PlaygroundPage() {
       </footer>
 
       <ScrollToTopButton />
+
+      {/* ── Project Modal ── */}
+      <AnimatePresence>
+        {activeProject && (
+          <ProjectModal project={activeProject} onClose={closeModal} />
+        )}
+      </AnimatePresence>
     </main>
   );
 }

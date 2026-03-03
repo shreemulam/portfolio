@@ -162,7 +162,7 @@ const EXPERIENCE = [
     company: "Orbit",
     role: "Founding Product Designer & Strategist (Contract)",
     period: "Dec 2024 \u2013 Mar 2025",
-    location: "Remote",
+    location: "Remote, US",
     description:
       "Led product definition and early design for a new platform from zero to MVP. Partnered closely with founders to shape product strategy, core flows, and positioning, translating ambiguous ideas into shippable concepts.",
   },
@@ -170,7 +170,7 @@ const EXPERIENCE = [
     company: "Pomu.io",
     role: "Product Designer",
     period: "Mar 2024 \u2013 Mar 2025",
-    location: "Remote",
+    location: "Remote, US",
     description:
       "Designed core product experiences for a marketplace platform, working across research, prototyping, and UI. Collaborated with engineering to iterate quickly and improve usability through testing and data-informed decisions.",
   },
@@ -911,32 +911,32 @@ export default function AboutPage() {
                     >
                       <div className="flex items-baseline justify-between mb-1">
                         <h3
-                          className="text-xl font-medium text-black transition-colors duration-200 group-hover:text-[#9b59b6]"
+                          className="text-[22px] font-medium text-black transition-colors duration-200 group-hover:text-[#9b59b6]"
                           style={{ fontFamily: FONT }}
                         >
                           {exp.company}
                         </h3>
                         <span
-                          className="text-sm text-black/40 text-right flex-shrink-0 ml-4"
+                          className="text-[15px] text-black/40 text-right flex-shrink-0 ml-4"
                           style={{ fontFamily: FONT }}
                         >
                           {exp.period}
                         </span>
                       </div>
                       <p
-                        className="text-sm mb-0.5"
+                        className="text-[16px] mb-0.5"
                         style={{ color: ACCENT_TEXT, fontFamily: FONT }}
                       >
                         {exp.role}
                       </p>
                       <p
-                        className="text-[12px] text-black/30 mb-2"
+                        className="text-[14px] text-black/40 mb-3"
                         style={{ fontFamily: FONT }}
                       >
                         {exp.location}
                       </p>
                       <p
-                        className="text-sm text-black/50"
+                        className="text-[16px] leading-[1.7] text-black/50"
                         style={{ fontFamily: FONT }}
                       >
                         {exp.description}

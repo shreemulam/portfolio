@@ -1066,7 +1066,7 @@ function ScrollToTopButton() {
       whileTap={{ scale: 0.9 }}
       transition={{ type: "spring", stiffness: 400, damping: 17 }}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="fixed bottom-8 left-8 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer border-none"
+      className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer border-none"
       style={{
         backgroundColor: ACCENT,
         pointerEvents: show ? "auto" : "none",

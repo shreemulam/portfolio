@@ -524,7 +524,7 @@ function PhotoGallery() {
         >
           LIFE IN PHOTOS
         </motion.p>
-        <div className="flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -554,8 +554,8 @@ function PhotoGallery() {
         onMouseLeave={() => (isPaused.current = false)}
         onTouchStart={() => (isPaused.current = true)}
         onTouchEnd={() => (isPaused.current = false)}
-        className="flex gap-4 px-6 py-2 overflow-x-hidden"
-        style={{ scrollbarWidth: "none" }}
+        className="flex gap-4 px-6 py-2 overflow-x-auto lg:overflow-x-hidden overflow-y-hidden"
+        style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
       >
         {[...GALLERY_PHOTOS, ...GALLERY_PHOTOS].map((photo, i) => (
           <motion.div
@@ -575,6 +575,28 @@ function PhotoGallery() {
             />
           </motion.div>
         ))}
+      </div>
+
+      {/* Arrow nav — mobile only, below gallery */}
+      <div className="flex lg:hidden items-center justify-center gap-4 mt-4 px-6">
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={() => scrollGallery(-1)}
+          className="w-11 h-11 rounded-full border border-black/10 flex items-center justify-center cursor-pointer bg-white"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M10 3L5 8L10 13" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </motion.button>
+        <motion.button
+          whileTap={{ scale: 0.9 }}
+          onClick={() => scrollGallery(1)}
+          className="w-11 h-11 rounded-full border border-black/10 flex items-center justify-center cursor-pointer bg-white"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 3L11 8L6 13" stroke="black" strokeOpacity="0.4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </motion.button>
       </div>
     </section>
   );

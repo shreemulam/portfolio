@@ -619,7 +619,7 @@ export default function PlaygroundPage() {
         <div className="flex items-center justify-between px-6 lg:px-10 py-6 max-w-[1200px] mx-auto">
           <a href="/" className="flex items-center gap-3 no-underline">
             <div className="flex items-center gap-2 text-[13px] text-[#373a46]/60 tracking-wide">
-              <span className="font-medium text-black" style={{ fontFamily: "'Instrument Serif', serif" }}>Rashi</span>
+              <span className="font-medium italic text-black text-[15px]" style={{ fontFamily: "'Instrument Serif', serif" }}>Rashi</span>
               <span className="text-black/20">&middot;</span>
               <span>{estTime || "\u2014"}</span>
               <span className="text-black/20">&middot;</span>

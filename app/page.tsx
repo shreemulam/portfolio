@@ -1667,7 +1667,7 @@ export default function HeroPage() {
           style={{ fontFamily: "'Geist', sans-serif" }}
         >
           <a href="/" className="flex items-center gap-2 text-[13px] text-[#373a46]/60 tracking-wide no-underline">
-            <span className="font-medium text-black" style={{ fontFamily: "'Instrument Serif', serif" }}>Rashi</span>
+            <span className="font-medium italic text-black text-[15px]" style={{ fontFamily: "'Instrument Serif', serif" }}>Rashi</span>
             <span className="text-black/20">&middot;</span>
             <span>{estTime || "\u2014"}</span>
             <span className="text-black/20">&middot;</span>

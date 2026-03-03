@@ -1030,6 +1030,30 @@ function PlaygroundSection() {
             A collection of code experiments, motion studies, and half-baked
             ideas.
           </p>
+          <a
+            href="/playground"
+            className="group/cta inline-flex items-center gap-2 mt-4 text-[15px] font-semibold text-black no-underline"
+            style={{ fontFamily: "'Geist', sans-serif" }}
+          >
+            <span className="border-b border-black/20 pb-0.5 group-hover/cta:border-[#EAB0FF] transition-colors duration-300">
+              See all
+            </span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              className="transition-transform duration-300 group-hover/cta:translate-x-1"
+            >
+              <path
+                d="M3 8H13M13 8L9 4M13 8L9 12"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
         </motion.div>
 
         {/* Arrow nav */}

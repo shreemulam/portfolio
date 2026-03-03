@@ -365,49 +365,35 @@ function HowIThinkSection() {
 
       {/* Desktop Stepper */}
       <div className="hidden md:block">
-        {/* Row 1: circles + lines */}
-        <div className="flex items-center mb-3">
-          {HOW_I_WORK.map((_, i) => (
-            <div key={i} className="flex items-center flex-1 last:flex-none">
-              <button
-                onClick={() => setActiveStep(i)}
-                className="w-7 h-7 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-200 cursor-pointer border-none p-0"
-                style={{
-                  backgroundColor:
-                    activeStep === i ? ACCENT : "rgba(0,0,0,0.05)",
-                  color: activeStep === i ? "#000" : "rgba(0,0,0,0.3)",
-                  fontFamily: FONT,
-                }}
-              >
-                {i + 1}
-              </button>
-              {i < HOW_I_WORK.length - 1 && (
-                <div
-                  className="flex-1 h-[2px] mx-3 transition-colors duration-300"
-                  style={{
-                    backgroundColor:
-                      i < activeStep ? ACCENT : "rgba(0,0,0,0.08)",
-                  }}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Row 2: labels */}
-        <div className="flex mb-6">
+        <div className="flex gap-2 mb-6">
           {HOW_I_WORK.map((step, i) => (
             <button
               key={i}
               onClick={() => setActiveStep(i)}
-              className="flex-1 last:flex-none text-left text-sm font-medium cursor-pointer bg-transparent border-none p-0 pr-6 transition-opacity duration-200"
+              className="flex-1 flex items-center gap-2.5 cursor-pointer bg-transparent border-none p-0 transition-opacity duration-200"
               style={{
-                color: activeStep === i ? ACCENT_TEXT : "rgba(0,0,0,0.7)",
-                opacity: activeStep === i ? 1 : 0.6,
                 fontFamily: FONT,
+                opacity: activeStep === i ? 1 : 0.5,
               }}
             >
-              {step.title}
+              <div
+                className="w-7 h-7 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-200 flex-shrink-0"
+                style={{
+                  backgroundColor:
+                    activeStep === i ? ACCENT : "rgba(0,0,0,0.05)",
+                  color: activeStep === i ? "#000" : "rgba(0,0,0,0.3)",
+                }}
+              >
+                {i + 1}
+              </div>
+              <span
+                className="text-sm font-medium text-left"
+                style={{
+                  color: activeStep === i ? ACCENT_TEXT : "rgba(0,0,0,0.7)",
+                }}
+              >
+                {step.title}
+              </span>
             </button>
           ))}
         </div>
@@ -505,7 +491,7 @@ export default function AboutPage() {
       className="min-h-screen bg-white"
       style={{ fontFamily: FONT }}
     >
-      {/* ── Navbar ── */}
+      {/* ─��� Navbar ── */}
       <motion.nav
         custom={0}
         variants={fadeSlideUp}

@@ -677,7 +677,9 @@ export default function PlaygroundPage() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="relative bg-gradient-to-b from-[#FAFAFA] via-[#f9eefb] to-[#f3e4f7] pt-16 pb-12 overflow-hidden">
+      <footer className="relative bg-gradient-to-b from-[#f9eefb] to-[#f3e4f7] pt-16 pb-12 overflow-hidden">
+        <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-[#FAFAFA]/80 to-transparent" />
+
         <div className="relative max-w-[1200px] mx-auto px-6 lg:px-10">
           <div className="w-full h-px bg-[#9b59b6]/15 mb-12" />
 

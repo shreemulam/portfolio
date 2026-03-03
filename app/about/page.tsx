@@ -535,7 +535,7 @@ export default function AboutPage() {
 
       {/* ── Background wash — white top, gradual accent at bottom ── */}
       <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white via-[60%] to-[#f9eefb] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white via-[40%] to-[#f9eefb] pointer-events-none" />
 
         {/* Floating accent blob — only near bottom for subtle warmth */}
         <motion.div

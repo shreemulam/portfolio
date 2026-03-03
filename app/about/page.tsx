@@ -573,7 +573,7 @@ export default function AboutPage() {
 
         {/* ── Content ── */}
         <div className="relative max-w-[1200px] mx-auto px-6 lg:px-10 py-16 lg:py-24">
-          <div className="flex flex-col lg:flex-row gap-16 lg:gap-20">
+          <div className="flex flex-col lg:flex-row gap-16 lg:gap-28">
             {/* ── LEFT COLUMN (sticky on desktop) ── */}
             <div className="w-full lg:w-2/5 lg:sticky lg:top-32 lg:self-start">
               {/* Profile Photo */}

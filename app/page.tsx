@@ -856,6 +856,10 @@ const PLAYGROUND_PROJECTS = [
 
 const CARD_TILTS = [-3, 2, -1.5, 3, -2, 1.5];
 
+function slugify(title: string) {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
 function PlaygroundCard({
   project,
   index,
@@ -866,6 +870,7 @@ function PlaygroundCard({
   const tilt = CARD_TILTS[index % CARD_TILTS.length];
 
   return (
+    <a href={`/playground#${slugify(project.title)}`} className="no-underline">
     <motion.div
       animate={{ rotate: tilt }}
       whileHover={{
@@ -958,6 +963,7 @@ function PlaygroundCard({
         </div>
       </div>
     </motion.div>
+    </a>
   );
 }
 

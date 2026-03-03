@@ -173,6 +173,12 @@ function FlipNavLink({ label, href }: { label: string; href: string }) {
   );
 }
 
+/* ─── Helpers ─── */
+
+function slugify(title: string) {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
 /* ─── Bento Card ─── */
 
 function BentoCard({
@@ -186,6 +192,7 @@ function BentoCard({
 
   return (
     <motion.div
+      id={slugify(project.title)}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}

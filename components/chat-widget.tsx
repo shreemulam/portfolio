@@ -87,7 +87,7 @@ export default function ChatWidget() {
       {/* Chat bubble — sits above scroll-to-top button */}
       <motion.button
         onClick={() => setOpen((o) => !o)}
-        className="fixed bottom-24 right-8 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer border-none shadow-lg"
+        className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer border-none shadow-lg"
         style={{ backgroundColor: open ? "#000" : ACCENT }}
         whileHover={{
           scale: 1.1,
@@ -149,7 +149,7 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
-            className="fixed bottom-40 right-8 z-50 w-[360px] max-h-[480px] rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+            className="fixed bottom-24 right-8 z-50 w-[360px] max-h-[480px] rounded-2xl shadow-2xl overflow-hidden flex flex-col"
             style={{
               backgroundColor: "#fff",
               border: "1px solid #e8e8e8",

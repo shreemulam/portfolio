@@ -11,6 +11,7 @@ import ImageCarousel from "./interactive/image-carousel";
 interface NumberedCardProps {
   card: NumberedCardType;
   index: number;
+  fullWidth?: boolean;
 }
 
 function ImagePlaceholder({ label }: { label?: string }) {
@@ -73,7 +74,11 @@ function InteractiveContent({ card }: { card: NumberedCardType }) {
   }
 }
 
-export default function NumberedCard({ card, index }: NumberedCardProps) {
+export default function NumberedCard({
+  card,
+  index,
+  fullWidth = false,
+}: NumberedCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -90,34 +95,47 @@ export default function NumberedCard({ card, index }: NumberedCardProps) {
       }}
       className="rounded-2xl bg-[#FAFAFA] border border-black/[0.08] p-6 lg:p-8 transition-shadow duration-300"
     >
-      {/* Number badge */}
       <div
-        className="inline-flex items-center justify-center w-10 h-10 rounded-full text-[14px] font-semibold text-black"
-        style={{ backgroundColor: ACCENT, fontFamily: FONT }}
+        className={
+          fullWidth
+            ? "flex flex-col lg:flex-row lg:gap-10"
+            : ""
+        }
       >
-        {card.number}
+        {/* Visual — wider in full-width mode */}
+        <div className={fullWidth ? "w-full lg:w-[58%] flex-shrink-0" : ""}>
+          <div className={fullWidth ? "" : "mb-4"}>
+            <InteractiveContent card={card} />
+          </div>
+        </div>
+
+        {/* Text content */}
+        <div className={fullWidth ? "mt-5 lg:mt-0 flex-1" : ""}>
+          {/* Number badge */}
+          <div
+            className="inline-flex items-center justify-center w-10 h-10 rounded-full text-[14px] font-semibold text-black"
+            style={{ backgroundColor: ACCENT, fontFamily: FONT }}
+          >
+            {card.number}
+          </div>
+
+          {/* Title */}
+          <h3
+            className="text-[20px] font-medium text-black mt-4 mb-3"
+            style={{ fontFamily: FONT }}
+          >
+            {card.title}
+          </h3>
+
+          {/* Description */}
+          <p
+            className="text-[15px] leading-relaxed text-black/50"
+            style={{ fontFamily: FONT }}
+          >
+            {card.description}
+          </p>
+        </div>
       </div>
-
-      {/* Title */}
-      <h3
-        className="text-[20px] font-medium text-black mt-4 mb-3"
-        style={{ fontFamily: FONT }}
-      >
-        {card.title}
-      </h3>
-
-      {/* Interactive content or placeholder */}
-      <div className="mb-4">
-        <InteractiveContent card={card} />
-      </div>
-
-      {/* Description */}
-      <p
-        className="text-[15px] leading-relaxed text-black/50"
-        style={{ fontFamily: FONT }}
-      >
-        {card.description}
-      </p>
     </motion.div>
   );
 }

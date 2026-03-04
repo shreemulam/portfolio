@@ -46,6 +46,7 @@ interface BaseSectionData {
   stickyLabel: string;
   stickyTitle: string;
   stickyDescription: string;
+  layout?: "full-width" | "sticky";
 }
 
 export interface FeatureSection extends BaseSectionData {

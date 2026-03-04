@@ -28,6 +28,43 @@ export const snipesFunding: CaseStudyMeta = {
     "Build transparent backup payment UX that users trust",
     "Create patterns reusable across all Accrue merchants",
   ],
+  process: [
+    {
+      phase: "Research",
+      duration: "3 weeks",
+      description:
+        "Usability tests, funnel analysis, and competitive audit across 4 payment apps",
+    },
+    {
+      phase: "Ideation",
+      duration: "2 weeks",
+      description:
+        "Design sprints exploring 12 funding flow concepts with engineering feasibility checks",
+    },
+    {
+      phase: "Prototyping",
+      duration: "2 weeks",
+      description:
+        "High-fidelity Figma prototypes for Apple Pay integration and backup payment flows",
+    },
+    {
+      phase: "Testing",
+      duration: "2 weeks",
+      description:
+        "8 moderated usability sessions validating the new flow against the original baseline",
+    },
+    {
+      phase: "Launch",
+      duration: "3 weeks",
+      description:
+        "Phased rollout starting with SNIPES, then scaling to 3 additional merchants",
+    },
+  ],
+  keyInsight: {
+    text: "Users weren't afraid of digital wallets — they were afraid of losing control. The moment we reframed backup payment as a 'Safety Net' instead of an automatic charge, trust scores jumped 40%.",
+    icon: "💡",
+    afterSection: "research",
+  },
   impact: [
     {
       value: "62% → 28%",
@@ -56,6 +93,29 @@ export const snipesFunding: CaseStudyMeta = {
   ],
   impactSummary:
     "The redesigned funding flow became the default template for all new Accrue merchant launches, significantly reducing onboarding friction across the platform.",
+  reflection: {
+    items: [
+      {
+        title: "Naming matters more than you think",
+        description:
+          "Changing 'Backup Payment' to 'Safety Net' wasn't just a copy tweak — it fundamentally shifted how users perceived the feature. Terminology should be tested as rigorously as layouts.",
+      },
+      {
+        title: "Design for the anxious user first",
+        description:
+          "Our biggest wins came from addressing fear, not optimizing flows. Adding a single confirmation screen with a clear undo option reduced support tickets by 35%.",
+      },
+      {
+        title: "White-label doesn't mean one-size-fits-all",
+        description:
+          "While the core flow scaled to 4 merchants, each brand needed different default amounts, copy tone, and payment method prioritization. We built config layers early — that saved weeks later.",
+      },
+    ],
+    doOver:
+      "I would have started usability testing two weeks earlier. We spent too long in competitive analysis when our real insights came from watching users struggle with the existing flow.",
+    nextSteps:
+      "Exploring auto-reload thresholds based on spending patterns, and expanding Apple Pay integration to in-store checkout via NFC tap-to-pay.",
+  },
   sections: [
     {
       id: "problem",
@@ -232,6 +292,46 @@ export const snipesFunding: CaseStudyMeta = {
           imagePlaceholder: "Success confirmation with animated balance counter",
         },
       ],
+    },
+    {
+      id: "gallery",
+      type: "gallery",
+      stickyLabel: "FINAL DESIGNS",
+      stickyTitle: "The complete funding experience, screen by screen.",
+      stickyDescription:
+        "From wallet home to confirmation, every screen was designed for clarity, speed, and trust.",
+      items: [
+        {
+          imagePlaceholder:
+            "Wallet home — prominent Add Money CTA with balance display",
+          caption:
+            "The redesigned wallet home screen with persistent funding entry point",
+          span: 3,
+        },
+        {
+          imagePlaceholder: "Apple Pay flow — amount selection",
+          caption: "Amount picker with smart defaults for returning users",
+          span: 1,
+        },
+        {
+          imagePlaceholder: "Apple Pay flow — authentication",
+          caption: "Native Apple Pay sheet with pre-filled card",
+          span: 1,
+        },
+        {
+          imagePlaceholder: "Apple Pay flow — confirmation",
+          caption: "Celebration moment with animated balance update",
+          span: 1,
+        },
+        {
+          imagePlaceholder:
+            "Safety Net explanation with visual flow diagram",
+          caption:
+            "Transparent backup payment logic — what happens when your balance runs low",
+          span: 3,
+        },
+      ],
+      columns: 3,
     },
   ],
 };

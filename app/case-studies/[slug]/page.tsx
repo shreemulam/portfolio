@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { useParams } from "next/navigation";
 import { motion } from "motion/react";
 import { ACCENT, FONT } from "@/lib/constants";
@@ -10,9 +11,12 @@ import HeroSection from "@/components/case-study/hero-section";
 import ProjectDetails from "@/components/case-study/project-details";
 import ClientBlock from "@/components/case-study/client-block";
 import ContextBlock from "@/components/case-study/context-block";
+import ProcessTimeline from "@/components/case-study/process-timeline";
 import StickySection from "@/components/case-study/sticky-section";
 import SectionNav from "@/components/case-study/section-nav";
+import KeyInsightCallout from "@/components/case-study/key-insight";
 import ImpactSection from "@/components/case-study/impact-section";
+import ReflectionSection from "@/components/case-study/reflection-section";
 import NextCaseStudies from "@/components/case-study/next-case-studies";
 
 export default function CaseStudyPage() {
@@ -91,17 +95,27 @@ export default function CaseStudyPage() {
         goals={caseStudy.goals}
       />
 
+      {/* Process timeline */}
+      {caseStudy.process && caseStudy.process.length > 0 && (
+        <ProcessTimeline steps={caseStudy.process} />
+      )}
+
       {/* Section navigation */}
       <SectionNav sections={caseStudy.sections} />
 
-      {/* Content sections */}
+      {/* Content sections + key insight callout */}
       {caseStudy.sections.map((section, i) => (
-        <StickySection
-          key={section.id}
-          section={section}
-          index={i}
-          isAlternate={i % 2 === 1}
-        />
+        <Fragment key={section.id}>
+          <StickySection
+            section={section}
+            index={i}
+            isAlternate={i % 2 === 1}
+          />
+          {caseStudy.keyInsight &&
+            caseStudy.keyInsight.afterSection === section.id && (
+              <KeyInsightCallout insight={caseStudy.keyInsight} />
+            )}
+        </Fragment>
       ))}
 
       {/* Impact section */}
@@ -110,6 +124,11 @@ export default function CaseStudyPage() {
         summary={caseStudy.impactSummary}
         testimonial={caseStudy.testimonial}
       />
+
+      {/* Reflection */}
+      {caseStudy.reflection && (
+        <ReflectionSection reflection={caseStudy.reflection} />
+      )}
 
       {/* Next case studies */}
       <NextCaseStudies currentSlug={slug} />

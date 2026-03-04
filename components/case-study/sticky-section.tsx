@@ -6,6 +6,7 @@ import type { CaseStudySection } from "@/lib/case-studies/types";
 import NumberedCard from "./cards/numbered-card";
 import CompetitorCard from "./cards/competitor-card";
 import PersonaCard from "./cards/persona-card";
+import GalleryGrid from "./cards/gallery-grid";
 
 interface StickySectionProps {
   section: CaseStudySection;
@@ -16,7 +17,7 @@ interface StickySectionProps {
 function getLayout(section: CaseStudySection): "full-width" | "sticky" {
   if (section.layout) return section.layout;
   // Default: visual-heavy sections get full-width
-  if (section.type === "features" || section.type === "solution") return "full-width";
+  if (section.type === "features" || section.type === "solution" || section.type === "gallery") return "full-width";
   return "sticky";
 }
 
@@ -37,6 +38,10 @@ function renderCards(section: CaseStudySection, isFullWidth: boolean) {
       return section.cards.map((card, i) => (
         <PersonaCard key={i} card={card} index={i} />
       ));
+    case "gallery":
+      return (
+        <GalleryGrid items={section.items} columns={section.columns} />
+      );
     default:
       return null;
   }

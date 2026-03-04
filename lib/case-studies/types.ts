@@ -12,6 +12,8 @@ export interface CaseStudyMeta {
   context: string;
   challenge?: string;
   goals?: string[];
+  process?: ProcessStep[];
+  keyInsight?: KeyInsight;
   impact: ImpactMetric[];
   impactSummary?: string;
   testimonial?: {
@@ -19,7 +21,37 @@ export interface CaseStudyMeta {
     author: string;
     role: string;
   };
+  reflection?: Reflection;
   sections: CaseStudySection[];
+}
+
+export interface ProcessStep {
+  phase: string;
+  duration: string;
+  description: string;
+}
+
+export interface KeyInsight {
+  text: string;
+  icon?: string;
+  afterSection?: string;
+}
+
+export interface ReflectionItem {
+  title: string;
+  description: string;
+}
+
+export interface Reflection {
+  items: ReflectionItem[];
+  doOver?: string;
+  nextSteps?: string;
+}
+
+export interface GalleryItem {
+  imagePlaceholder?: string;
+  caption?: string;
+  span?: 1 | 2 | 3;
 }
 
 export interface ImpactMetric {
@@ -39,7 +71,14 @@ export type CaseStudySection =
   | CompetitorSection
   | PersonaSection
   | SolutionSection
-  | GenericSection;
+  | GenericSection
+  | GallerySection;
+
+export interface GallerySection extends BaseSectionData {
+  type: "gallery";
+  items: GalleryItem[];
+  columns?: 1 | 2 | 3;
+}
 
 interface BaseSectionData {
   id: string;

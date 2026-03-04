@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const ACCENT = "#EAB0FF";
 
@@ -25,7 +27,7 @@ export default function ChatWidget() {
     { role: "assistant", content: GREETING },
   ]);
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [streaming, setStreaming] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -46,16 +48,20 @@ export default function ChatWidget() {
     }
   }, [open]);
 
-  const showPrompts = messages.length === 1 && !loading;
+  const showPrompts = messages.length === 1 && !streaming;
 
   async function sendText(text: string) {
-    if (!text || loading) return;
+    if (!text || streaming) return;
 
     const userMsg: Message = { role: "user", content: text };
     const updated = [...messages, userMsg];
     setMessages(updated);
     setInput("");
-    setLoading(true);
+    setStreaming(true);
+
+    // Add empty assistant message that will be filled progressively
+    const withAssistant = [...updated, { role: "assistant" as const, content: "" }];
+    setMessages(withAssistant);
 
     try {
       const res = await fetch("/api/chat", {
@@ -64,29 +70,69 @@ export default function ChatWidget() {
         body: JSON.stringify({ messages: updated }),
       });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: data.message },
-        ]);
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: "assistant",
-            content: data.error || "Something went wrong. Try again!",
-          },
-        ]);
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `HTTP ${res.status}`);
       }
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "Network error. Please try again." },
-      ]);
+
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("No reader available");
+
+      const decoder = new TextDecoder();
+      let accumulated = "";
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+
+        // Split on double newline (SSE event boundary)
+        const events = buffer.split("\n\n");
+        buffer = events.pop() || ""; // Keep incomplete event for next chunk
+
+        for (const event of events) {
+          const line = event.trim();
+          if (!line.startsWith("data: ")) continue;
+
+          const data = line.slice(6);
+          if (data === "[DONE]") break;
+
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.text) {
+              accumulated += parsed.text;
+              setMessages((prev) => {
+                const next = [...prev];
+                next[next.length - 1] = { role: "assistant", content: accumulated };
+                return next;
+              });
+            }
+            if (parsed.error) {
+              throw new Error(parsed.error);
+            }
+          } catch (parseErr) {
+            if (parseErr instanceof SyntaxError) continue;
+            throw parseErr;
+          }
+        }
+      }
+    } catch (error) {
+      setMessages((prev) => {
+        const next = [...prev];
+        next[next.length - 1] = {
+          role: "assistant",
+          content:
+            error instanceof Error && error.message.includes("Too many")
+              ? error.message
+              : "Something went wrong. Please try again.",
+        };
+        return next;
+      });
+      console.error("Chat error:", error);
     } finally {
-      setLoading(false);
+      setStreaming(false);
     }
   }
 
@@ -206,11 +252,18 @@ export default function ChatWidget() {
                       msg.role === "user" ? 4 : undefined,
                     borderBottomLeftRadius:
                       msg.role === "assistant" ? 4 : undefined,
-                    whiteSpace: "pre-wrap",
                     wordBreak: "break-word",
                   }}
                 >
-                  {msg.content}
+                  {msg.role === "assistant" ? (
+                    <div className="chat-markdown prose prose-sm max-w-none">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {msg.content || "\u200B"}
+                      </ReactMarkdown>
+                    </div>
+                  ) : (
+                    <span style={{ whiteSpace: "pre-wrap" }}>{msg.content}</span>
+                  )}
                 </div>
               ))}
               {showPrompts && (
@@ -239,7 +292,7 @@ export default function ChatWidget() {
                   ))}
                 </div>
               )}
-              {loading && (
+              {streaming && messages[messages.length - 1]?.content === "" && (
                 <div
                   className="self-start px-3.5 py-2.5 rounded-2xl text-[13px] text-black/40"
                   style={{
@@ -268,21 +321,21 @@ export default function ChatWidget() {
                 onKeyDown={(e) => e.key === "Enter" && sendText(input.trim())}
                 placeholder="Ask about Rashi..."
                 className="flex-1 text-[16px] sm:text-[13px] bg-transparent outline-none text-black placeholder:text-black/30"
-                disabled={loading}
+                disabled={streaming}
               />
               <button
                 onClick={() => sendText(input.trim())}
-                disabled={loading || !input.trim()}
+                disabled={streaming || !input.trim()}
                 className="w-8 h-8 rounded-full flex items-center justify-center border-none cursor-pointer transition-colors"
                 style={{
                   backgroundColor:
-                    input.trim() && !loading ? "#000" : "#e8e8e8",
+                    input.trim() && !streaming ? "#000" : "#e8e8e8",
                 }}
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path
                     d="M1 7H13M13 7L7 1M13 7L7 13"
-                    stroke={input.trim() && !loading ? "white" : "#999"}
+                    stroke={input.trim() && !streaming ? "white" : "#999"}
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -293,6 +346,41 @@ export default function ChatWidget() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Compact markdown styles for chat bubble */}
+      <style jsx global>{`
+        .chat-markdown p { margin: 0 0 0.4em; }
+        .chat-markdown p:last-child { margin-bottom: 0; }
+        .chat-markdown ul, .chat-markdown ol { margin: 0.3em 0; padding-left: 1.2em; }
+        .chat-markdown li { margin: 0.1em 0; }
+        .chat-markdown strong { font-weight: 600; }
+        .chat-markdown code:not(pre code) {
+          background: rgba(0,0,0,0.06);
+          padding: 0.1em 0.3em;
+          border-radius: 3px;
+          font-size: 0.85em;
+        }
+        .chat-markdown pre {
+          background: rgba(0,0,0,0.06);
+          padding: 0.5em;
+          border-radius: 6px;
+          overflow-x: auto;
+          font-size: 0.8em;
+          margin: 0.4em 0;
+        }
+        .chat-markdown h1, .chat-markdown h2, .chat-markdown h3 {
+          font-size: 0.9em;
+          font-weight: 600;
+          margin: 0.5em 0 0.2em;
+        }
+        .chat-markdown a { color: #7c3aed; text-decoration: underline; }
+        .chat-markdown blockquote {
+          border-left: 2px solid #ddd;
+          padding-left: 0.6em;
+          margin: 0.3em 0;
+          color: rgba(0,0,0,0.6);
+        }
+      `}</style>
     </>
   );
 }

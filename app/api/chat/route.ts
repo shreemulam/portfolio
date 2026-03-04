@@ -24,6 +24,8 @@ Be warm but professional. Keep answers concise (2-4 sentences unless more detail
 
 If someone asks about a specific project, share the relevant case study details. If asked about skills or tools, be specific about proficiency. If asked "why should we hire Rashi" or similar, highlight her unique combination of systems thinking, research-driven design, and technical awareness.
 
+Use markdown formatting in your responses — bold for emphasis, bullet points for lists, and headers if structuring longer answers.
+
 ---
 
 ${knowledgeBase}`;
@@ -73,17 +75,47 @@ export async function POST(req: NextRequest) {
       content: m.content,
     }));
 
-    const response = await client.messages.create({
+    const stream = client.messages.stream({
       model: "claude-haiku-4-5-20251001",
       max_tokens: 1024,
       system: SYSTEM_PROMPT,
       messages: recentMessages,
     });
 
-    const text =
-      response.content[0].type === "text" ? response.content[0].text : "";
+    const encoder = new TextEncoder();
 
-    return Response.json({ message: text });
+    const readable = new ReadableStream({
+      async start(controller) {
+        stream.on("text", (text) => {
+          const data = JSON.stringify({ text });
+          controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+        });
+
+        stream.on("error", (error) => {
+          const data = JSON.stringify({ error: (error as Error).message });
+          controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+          controller.enqueue(encoder.encode(`data: [DONE]\n\n`));
+          controller.close();
+        });
+
+        try {
+          await stream.finalMessage();
+        } catch {
+          // Error already handled by the error event
+        }
+
+        controller.enqueue(encoder.encode(`data: [DONE]\n\n`));
+        controller.close();
+      },
+    });
+
+    return new Response(readable, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
   } catch (e) {
     console.error("Chat API error:", e);
     return Response.json(

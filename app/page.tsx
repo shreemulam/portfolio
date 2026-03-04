@@ -167,11 +167,11 @@ const CARD_DECORATIONS: React.ReactNode[] = [
     <div className="absolute top-[35%] left-[35%] w-[180px] h-[110px] rounded-xl border border-[#EAB0FF]/25 bg-[#EAB0FF]/[0.04] rotate-[8deg]" />
     <div className="absolute bottom-[22%] right-[15%] w-[160px] h-[100px] rounded-xl border border-black/[0.06] rotate-[-5deg]" />
   </>,
-  /* 2 — Concentric rings + phone outline */
+  /* 2 — Nested rectangles + phone outline */
   <>
-    <div className="absolute top-[20%] left-[30%] w-44 h-44 rounded-full border border-[#EAB0FF]/15" />
-    <div className="absolute top-[27%] left-[37%] w-28 h-28 rounded-full border border-[#EAB0FF]/20" />
-    <div className="absolute top-[32%] left-[42%] w-14 h-14 rounded-full border border-[#EAB0FF]/30" />
+    <div className="absolute top-[18%] left-[25%] w-[200px] h-[140px] rounded-xl border border-[#EAB0FF]/15 rotate-[3deg]" />
+    <div className="absolute top-[28%] left-[32%] w-[140px] h-[90px] rounded-lg border border-[#EAB0FF]/20 rotate-[-2deg]" />
+    <div className="absolute top-[35%] left-[38%] w-[80px] h-[50px] rounded-md border border-[#EAB0FF]/30" />
     <div className="absolute bottom-[15%] right-[18%] w-[140px] h-[260px] rounded-[24px] border border-black/[0.08]" />
   </>,
   /* 3 — Bar chart silhouettes */
@@ -189,7 +189,7 @@ const CARD_DECORATIONS: React.ReactNode[] = [
     <div className="absolute top-[20%] left-[42%] w-[100px] h-[60px] rounded-lg border border-[#EAB0FF]/15" />
     <div className="absolute top-[45%] left-[15%] w-[100px] h-[60px] rounded-lg border border-[#EAB0FF]/15" />
     <div className="absolute top-[45%] left-[42%] w-[100px] h-[60px] rounded-lg border border-black/[0.08]" />
-    <div className="absolute bottom-[15%] left-[25%] w-[160px] h-[40px] rounded-full border border-[#EAB0FF]/15" />
+    <div className="absolute bottom-[15%] left-[25%] w-[160px] h-[40px] rounded-lg border border-[#EAB0FF]/15" />
   </>,
   /* 5 — Product card silhouette */
   <>
@@ -198,18 +198,12 @@ const CARD_DECORATIONS: React.ReactNode[] = [
     <div className="absolute bottom-[28%] left-[25%] w-20 h-3 rounded-full bg-[#EAB0FF]/15" />
     <div className="absolute bottom-[23%] left-[25%] w-[120px] h-3 rounded-full bg-black/[0.04]" />
   </>,
-  /* 6 — Organic blob outlines */
+  /* 6 — Scattered tilted rectangles */
   <>
-    <div
-      className="absolute top-[30%] left-[10%] w-[250px] h-[250px] border border-[#EAB0FF]/10 rotate-[15deg]"
-      style={{ borderRadius: "42% 58% 70% 30% / 45% 45% 55% 55%" }}
-    />
-    <div
-      className="absolute top-[20%] left-[30%] w-[180px] h-[180px] border border-black/[0.06]"
-      style={{ borderRadius: "60% 40% 30% 70% / 60% 30% 70% 40%" }}
-    />
-    <div className="absolute bottom-[20%] right-[20%] w-4 h-4 rounded-full bg-[#EAB0FF]/25" />
-    <div className="absolute top-[15%] right-[25%] w-3 h-3 rounded-full bg-[#EAB0FF]/20" />
+    <div className="absolute top-[25%] left-[10%] w-[250px] h-[160px] rounded-2xl border border-[#EAB0FF]/10 rotate-[15deg]" />
+    <div className="absolute top-[18%] left-[35%] w-[180px] h-[120px] rounded-xl border border-black/[0.06] rotate-[-8deg]" />
+    <div className="absolute bottom-[18%] right-[18%] w-[120px] h-[70px] rounded-lg border border-[#EAB0FF]/20 rotate-[5deg]" />
+    <div className="absolute top-[12%] right-[22%] w-[80px] h-[50px] rounded-md border border-[#EAB0FF]/15 rotate-[-3deg]" />
   </>,
 ];
 
@@ -315,7 +309,7 @@ function AccrueLogo() {
   );
 }
 
-/* ─── Case Study Components ─── */
+/* ─── Case Study Components ����── */
 
 function VerticalNav({
   activeIndex,

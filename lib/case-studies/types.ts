@@ -8,8 +8,24 @@ export interface CaseStudyMeta {
   heroGradient: string;
   heroColor: string;
   overview: OverviewCard[];
+  clientDescription: string;
   context: string;
+  challenge?: string;
+  goals?: string[];
+  impact: ImpactMetric[];
+  impactSummary?: string;
+  testimonial?: {
+    quote: string;
+    author: string;
+    role: string;
+  };
   sections: CaseStudySection[];
+}
+
+export interface ImpactMetric {
+  value: string;
+  label: string;
+  description?: string;
 }
 
 export interface OverviewCard {

@@ -16,8 +16,46 @@ export const snipesFunding: CaseStudyMeta = {
     { label: "Timeline", value: "January to March 2024" },
     { label: "My role", value: "Research, strategy, design & testing" },
   ],
+  clientDescription:
+    "Accrue builds white-label wallet and loyalty platforms for enterprise retail brands. As the lead designer, I worked directly with SNIPES—a global sneaker retailer and Accrue's flagship merchant—to reimagine how users fund and manage their wallets.",
   context:
-    "Accrue builds white-label wallet and loyalty platforms for enterprise retail brands. SNIPES, a global sneaker retailer, was the flagship merchant—but their wallet activation and funding flows had high drop-off rates, unclear backup payment logic, and no Apple Pay integration.",
+    "SNIPES' wallet activation and funding flows had high drop-off rates, unclear backup payment logic, and no Apple Pay integration. Users were signing up but never adding money—the critical first step to becoming an active wallet user.",
+  challenge:
+    "Users were abandoning the wallet before ever adding money. The funding flow felt unfamiliar, backup payment logic was opaque, and there was no Apple Pay—despite 78% of users being on iOS.",
+  goals: [
+    "Reduce funding flow drop-off by 50%",
+    "Integrate Apple Pay as a first-class funding method",
+    "Build transparent backup payment UX that users trust",
+    "Create patterns reusable across all Accrue merchants",
+  ],
+  impact: [
+    {
+      value: "62% → 28%",
+      label: "Funding drop-off rate",
+      description:
+        "More than halved the abandonment rate in the funding funnel",
+    },
+    {
+      value: "3.2×",
+      label: "Wallet activation",
+      description:
+        "Users who completed first fund within 24 hours of signup",
+    },
+    {
+      value: "+45%",
+      label: "Apple Pay adoption",
+      description:
+        "iOS users choosing Apple Pay as primary funding method",
+    },
+    {
+      value: "4 merchants",
+      label: "Pattern reuse",
+      description:
+        "Solution scaled across Accrue's merchant portfolio",
+    },
+  ],
+  impactSummary:
+    "The redesigned funding flow became the default template for all new Accrue merchant launches, significantly reducing onboarding friction across the platform.",
   sections: [
     {
       id: "problem",

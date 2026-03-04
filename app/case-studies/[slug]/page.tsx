@@ -2,15 +2,17 @@
 
 import { useParams } from "next/navigation";
 import { motion } from "motion/react";
-import { ACCENT, ACCENT_TEXT, FONT, SERIF } from "@/lib/constants";
-import { getCaseStudy, CASE_STUDY_SLUGS } from "@/lib/case-studies";
+import { ACCENT, ACCENT_TEXT, FONT } from "@/lib/constants";
+import { getCaseStudy } from "@/lib/case-studies";
 import Navbar from "@/components/navbar";
 import ScrollToTopButton from "@/components/scroll-to-top";
 import HeroSection from "@/components/case-study/hero-section";
-import OverviewCards from "@/components/case-study/overview-cards";
+import ProjectDetails from "@/components/case-study/project-details";
+import ClientBlock from "@/components/case-study/client-block";
 import ContextBlock from "@/components/case-study/context-block";
 import StickySection from "@/components/case-study/sticky-section";
 import SectionNav from "@/components/case-study/section-nav";
+import ImpactSection from "@/components/case-study/impact-section";
 
 export default function CaseStudyPage() {
   const params = useParams();
@@ -75,9 +77,18 @@ export default function CaseStudyPage() {
         firstSectionId={solutionSection?.id}
       />
 
-      <OverviewCards cards={caseStudy.overview} />
+      <ProjectDetails cards={caseStudy.overview} />
 
-      <ContextBlock text={caseStudy.context} />
+      <ClientBlock
+        clientName={caseStudy.client}
+        clientDescription={caseStudy.clientDescription}
+      />
+
+      <ContextBlock
+        text={caseStudy.context}
+        challenge={caseStudy.challenge}
+        goals={caseStudy.goals}
+      />
 
       {/* Section navigation */}
       <SectionNav sections={caseStudy.sections} />
@@ -91,6 +102,13 @@ export default function CaseStudyPage() {
           isAlternate={i % 2 === 1}
         />
       ))}
+
+      {/* Impact section */}
+      <ImpactSection
+        metrics={caseStudy.impact}
+        summary={caseStudy.impactSummary}
+        testimonial={caseStudy.testimonial}
+      />
 
       {/* Footer CTA */}
       <section className="py-24 lg:py-32">

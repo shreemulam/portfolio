@@ -31,6 +31,7 @@ const NAV_LINKS = [
 
 const CASE_STUDIES = [
   {
+    slug: "snipes-funding",
     tags: ["Fintech", "Payments", "Behavioral UX"],
     title: "Redesigning funding flows for wallet-first payments",
     subtitle: "Accrue × SNIPES • 2024",
@@ -43,6 +44,7 @@ const CASE_STUDIES = [
     ],
   },
   {
+    slug: "exxonmobil-rewards",
     tags: ["Loyalty", "Mobile", "Visual Design"],
     title: "Reimagining rewards for gas station loyalty",
     subtitle: "Accrue × ExxonMobil • 2025",
@@ -55,6 +57,7 @@ const CASE_STUDIES = [
     ],
   },
   {
+    slug: "wallet-intelligence",
     tags: ["Data Viz", "Analytics", "Product Design"],
     title: "Building a design intelligence dashboard",
     subtitle: "Accrue • 2024",
@@ -67,6 +70,7 @@ const CASE_STUDIES = [
     ],
   },
   {
+    slug: "design-system",
     tags: ["Design Systems", "White-Label", "Scale"],
     title: "Scaling a design system across merchant brands",
     subtitle: "Accrue • 2023–2024",
@@ -79,6 +83,7 @@ const CASE_STUDIES = [
     ],
   },
   {
+    slug: "snipes-pdp",
     tags: ["E-commerce", "Conversion", "UX Research"],
     title: "Optimizing product pages for reserve-first shopping",
     subtitle: "Accrue × SNIPES • 2024",
@@ -91,6 +96,7 @@ const CASE_STUDIES = [
     ],
   },
   {
+    slug: "hair-cuttery",
     tags: ["Service Design", "Loyalty", "Brand"],
     title: "Bringing salon rewards into the digital age",
     subtitle: "Accrue × Hair Cuttery • 2024",
@@ -483,7 +489,7 @@ function CaseStudyCard({
 
         {/* CTA */}
         <a
-          href="#"
+          href={`/case-studies/${study.slug}`}
           className="group/cta inline-flex items-center gap-2 mt-4 text-[15px] font-semibold text-black no-underline"
           style={{ fontFamily: "'Geist', sans-serif" }}
         >

@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { motion } from "motion/react";
-import { ACCENT, ACCENT_TEXT, FONT } from "@/lib/constants";
+import { ACCENT, FONT } from "@/lib/constants";
 import { getCaseStudy } from "@/lib/case-studies";
 import Navbar from "@/components/navbar";
 import ScrollToTopButton from "@/components/scroll-to-top";
@@ -13,6 +13,7 @@ import ContextBlock from "@/components/case-study/context-block";
 import StickySection from "@/components/case-study/sticky-section";
 import SectionNav from "@/components/case-study/section-nav";
 import ImpactSection from "@/components/case-study/impact-section";
+import NextCaseStudies from "@/components/case-study/next-case-studies";
 
 export default function CaseStudyPage() {
   const params = useParams();
@@ -110,46 +111,8 @@ export default function CaseStudyPage() {
         testimonial={caseStudy.testimonial}
       />
 
-      {/* Footer CTA */}
-      <section className="py-24 lg:py-32">
-        <div className="max-w-[800px] mx-auto px-6 lg:px-10 text-center">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-[13px] font-semibold tracking-[0.2em] mb-6"
-            style={{ color: ACCENT_TEXT }}
-          >
-            NEXT CASE STUDY
-          </motion.p>
-          <motion.a
-            href="/#case-studies"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 0 30px rgba(234,176,255,0.5)",
-            }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 rounded-[40px] px-8 py-4 text-[15px] font-semibold text-black no-underline cursor-pointer"
-            style={{ backgroundColor: ACCENT }}
-          >
-            View All Case Studies
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M3 8H13M13 8L9 4M13 8L9 12"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </motion.a>
-        </div>
-      </section>
+      {/* Next case studies */}
+      <NextCaseStudies currentSlug={slug} />
 
       <ScrollToTopButton />
     </main>
